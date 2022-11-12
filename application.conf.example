@@ -1,7 +1,11 @@
 [Mail]
-Host=smtp.gmail.com
-Port=465
-Username=
+ImapServer=imap.gmail.com
+ImapPort=993
+
+SmtpServer=smtp.gmail.com
+SmtpPort=465
+
+Account=
 Password=
 
 [Telegram]

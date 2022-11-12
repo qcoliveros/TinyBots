@@ -6,12 +6,18 @@ import sys
 class Config:
     config_parser = None
 
-    imap_host = None
+    # To read the incoming mail.
+    imap_server = None
     imap_port = 465
-    imap_username = None
-    imap_password = None
     imap_folder = 'INBOX'
     imap_search = '(UID ${lastUID}:* UNSEEN)'
+    
+    # To to send outgoing mail.
+    smtp_server = None
+    smtp_port = 465
+    
+    email_account = None
+    email_password = None
 
     tg_bot_token = None
     tg_chat_id = None
@@ -29,12 +35,16 @@ class Config:
                 logging.critical('Cannot find the provided configuration file %s.' % args.config)
                 raise Exception
                 
-            self.imap_host = self.get_config('Mail', 'Host', self.imap_host)
-            self.imap_port = self.get_config('Mail', 'Port', self.imap_port, int)    
-            self.imap_username = self.get_config('Mail', 'Username', self.imap_username)
-            self.imap_password = self.get_config('Mail', 'Password', self.imap_password)
+            self.imap_server = self.get_config('Mail', 'ImapServer', self.imap_server)
+            self.imap_port = self.get_config('Mail', 'ImapPort', self.imap_port, int)    
             self.imap_folder = self.get_config('Mail', 'Folder', self.imap_folder)
             self.imap_search = self.get_config('Mail', 'Search', self.imap_search)
+            
+            self.smtp_server = self.get_config('Mail', 'SmtpServer', self.smtp_server)
+            self.smtp_port = self.get_config('Mail', 'SmtpPort', self.smtp_port, int)    
+            
+            self.email_account = self.get_config('Mail', 'Account', self.email_account)
+            self.email_password = self.get_config('Mail', 'Password', self.email_password)
     
             self.tg_bot_token = self.get_config('Telegram', 'BotToken', self.tg_bot_token)
             self.tg_chat_id = self.get_config('Telegram', 'ChatId', self.tg_chat_id, int)
@@ -55,7 +65,7 @@ class Config:
                         value = self.config_parser.getboolean(section, key)
                     else:
                         value = self.config_parser.get(section, key)
-                    logging.debug('%s = %s' % (key, value))
+                    #logging.debug('%s = %s' % (key, value))
                     
                     return value
             else:
