@@ -3,29 +3,21 @@ import logging
 import socket
 import typing
 
-from Config import *
 from Helper import *
+from Mail import *
 
-class MailReader:
-    config: Config
+class MailReader(Mail):
     mail: typing.Optional[imaplib.IMAP4_SSL] = None
     
-    def __init__(self, config):
-        self.config = config
-        self.connect(config.imap_server, config.imap_port)
+    def connect(self):
+        response = self.refresh_token()
+        auth_str = self.generate_oauth2_str(response['access_token'], base64_encode=False)
         
-    def connect(self, server, port):
-        try:
-            self.mail = imaplib.IMAP4_SSL(server, port)
-            rv, data = self.mail.login(self.config.email_account, self.config.email_password)
+        mail = imaplib.IMAP4_SSL(self.config.imap_server)
+        mail.debug = 4
+        mail.authenticate('XOAUTH2', lambda x: auth_str)
         
-        except socket.gaierror as socket_error:
-            logging.critical('Unable to connect to email: %s' % socket_error.strerror)
-        
-        except imaplib.IMAP4_SSL.error as ssl_error:
-            errors = [Helper.byte_to_string(arg) for arg in ssl_error.args]
-            logging.critical('Unable to connect to email: %s' % ', '.join(errors))
-            
-        except Exception as login_error:
-            logging.critical('Unable to connect to email: %s' % ', '.join(map(str, login_error.args)))
-        
+        mail.list()
+        mail.select("INBOX")
+    
+   
