@@ -24,7 +24,7 @@ git clone https://github.com/mcoliveros/TinyBots.git TinyBots
 cd TinyBots
 ```
 4. Setup the configuration file.
-<br/>Note Refer to *Setup OAuth2 Authentication for Gmail account* for the information needed to provide under *Mail* section.
+    * Refer to *Setup OAuth2 Authentication for Gmail account* for the information needed to provide under *Mail* section.
 
 ```
 cp application.conf.example application.conf
