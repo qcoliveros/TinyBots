@@ -31,6 +31,20 @@ cp application.conf.example application.conf
 ```
 
 
+## Execute the Forwarder
+1. To run the Gmail to Telegram forwarder:
+
+```
+python3 MailToTelegramForwarder.py -c application.conf 
+```
+
+2. To run the Telegram to Gmail forwarder:
+
+```
+python3 TelegramToMailForwarder.py -c application.conf 
+```
+
+
 ## Setup OAuth2 Authentication for Gmail account
 1. Sign in to **Google Cloud console** and create a *New Project* or continue with an existing project.
 2. Go to *APIs and Services*.
