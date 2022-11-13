@@ -19,6 +19,11 @@ registering and for documentation of the APIs invoked by this code.
 class Mail:
     config: Config
     
+    class MailError(Exception):
+        def __init__(self, message, errors=None):
+            super().__init__(message)
+            self.errors = errors
+    
     def __init__(self, config):
         self.config = config
     
@@ -68,5 +73,3 @@ class Mail:
             auth_str = base64.b64encode(auth_str.encode()).decode()
         
         return auth_str
-    
-    

@@ -19,6 +19,8 @@ class Config:
     refresh_token = None
     
     imap_server = None
+    imap_folder = 'INBOX'
+    imap_search = '(UID ${lastUID}:* UNSEEN)'
 
     # Configuration for Telegram.
     tg_bot_token = None

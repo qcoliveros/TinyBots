@@ -5,8 +5,8 @@ from MailReader import *
 from Telegram import *
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='tinybots.log', 
-                        encoding='utf-8', 
+    logging.basicConfig(#filename='tinybots.log', 
+                        #encoding='utf-8', 
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         level=logging.DEBUG)
     
@@ -14,5 +14,12 @@ if __name__ == '__main__':
     mail = MailReader(config)
     telegram = Telegram(config)
 
-    mail.connect()
-    
+    try:
+        mail.connect()
+        mails = mail.search_mails()
+        
+        # TODO: push email to telegram. 
+    except Exception as error:
+        logging.error('Unable to check the mailbox: %s' % error)
+    finally:
+        mail.disconnect()
