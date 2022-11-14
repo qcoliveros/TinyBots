@@ -84,7 +84,10 @@ class MailBody:
     type: MailDataType = MailDataType.TEXT
     
     def __str__(self):
-        return '{type:%s, content:%s}' % (type, content)
+        return '{type:%s, content:%s}' % (self.type, self.content)
+    
+    def __repr__(self):
+        return self.__str__()
     
 class MailData:
     uid: str = ''
@@ -95,4 +98,7 @@ class MailData:
     body: str = ''
     
     def __str__(self):
-        return '{uid:%s, type:%s, sender:%s, subject:%s, body:%s}' % (uid, type, sender, subject, body) 
+        return '{uid:%s, type:%s, sender:%s, subject:%s, body:%s}' % (self.uid, self.type, self.sender, self.subject, self.body) 
+    
+    def __repr__(self):
+        return self.__str__()
