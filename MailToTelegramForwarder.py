@@ -1,25 +1,32 @@
 import logging
 
-from Config import *
+from Forwarder import *
 from MailReader import *
 from Telegram import *
 
-if __name__ == '__main__':
-    logging.basicConfig(#filename='tinybots.log', 
-                        #encoding='utf-8', 
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        level=logging.DEBUG)
+class MailToTelegramForwarder(Forwarder):
+    mail: MailReader
+    telegram: Telegram
     
-    config = Config()
-    mail = MailReader(config)
-    telegram = Telegram(config)
-
-    try:
-        mail.connect()
-        mails = mail.search_mails()
+    def __init__(self):
+        super().__init__()
+        self.mail = MailReader(self.config)
+        self.telegram = Telegram(self.config)
         
-        # TODO: push email to telegram. 
-    except Exception as error:
-        logging.error('Unable to check the mailbox: %s' % error)
-    finally:
-        mail.disconnect()
+    def start(self):
+        try:
+            self.mail.connect()
+            
+            # Retrieve all unread mails.
+            mails = self.mail.search_mails()
+            logging.debug(mails)
+            
+            # TODO: Push email to Telegram.
+        except Exception as error:
+            logging.error(error)
+        finally:
+            self.mail.disconnect()
+
+if __name__ == '__main__':
+    forwarder = MailToTelegramForwarder()
+    forwarder.start()

@@ -20,11 +20,6 @@ registering and for documentation of the APIs invoked by this code.
 class Mail:
     config: Config
     
-    class MailError(Exception):
-        def __init__(self, message, errors=None):
-            super().__init__(message)
-            self.errors = errors
-    
     def __init__(self, config):
         self.config = config
     
@@ -68,12 +63,17 @@ class Mail:
         response = urlopen(self.config.token_uri, urlencode(params).encode()).read()
         return json.loads(response.decode())
   
-    def generate_oauth2_str(self, access_token, base64_encode=True):
+    def generate_auth_str(self, access_token, base64_encode=True):
         auth_str = 'user=%s\1auth=Bearer %s\1\1' % (self.config.email_user, access_token)
         if base64_encode:
             auth_str = base64.b64encode(auth_str.encode()).decode()
         
         return auth_str
+    
+class MailError(Exception):
+    def __init__(self, message, errors=None):
+        super().__init__(message)
+        self.errors = errors
 
 class MailDataType(Enum):
     TEXT = 1
@@ -83,10 +83,16 @@ class MailBody:
     content: str = ''
     type: MailDataType = MailDataType.TEXT
     
+    def __str__(self):
+        return '{type:%s, content:%s}' % (type, content)
+    
 class MailData:
     uid: str = ''
     raw: str = ''
     type: MailDataType = MailDataType.TEXT
-    mail_from: str = ''
-    mail_subject: str = ''
-    mail_body: str = ''
+    sender: str = ''
+    subject: str = ''
+    body: str = ''
+    
+    def __str__(self):
+        return '{uid:%s, type:%s, sender:%s, subject:%s, body:%s}' % (uid, type, sender, subject, body) 

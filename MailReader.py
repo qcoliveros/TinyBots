@@ -16,29 +16,29 @@ class MailReader(Mail):
     def connect(self):
         try:
             response = self.refresh_token()
-            auth_str = self.generate_oauth2_str(response['access_token'], base64_encode=False)
+            auth_str = self.generate_auth_str(response['access_token'], base64_encode=False)
             
             self.mailbox = imaplib.IMAP4_SSL(self.config.imap_server)
             #self.mailbox.debug = 4
             
             rv, data = self.mailbox.authenticate('XOAUTH2', lambda x: auth_str)
             if rv != 'OK':
-                raise self.MailError('Unable to connect to mailbox: %s' % (', '.join(map(str, error.args))))
+                raise MailError('Unable to connect to mailbox: %s' % (', '.join(map(str, error.args))))
             
             rv, mailboxes = self.mailbox.list()
             if rv != 'OK':
                 self.disconnect()
-                raise self.MailError('Unable to get the list of mail folders: %s' % str(rv))
+                raise MailError('Unable to get the list of mail folders: %s' % str(rv))
             else:
                 logging.debug(mailboxes)
                 
             rv, data = self.mailbox.select(self.config.imap_folder)
             if rv != 'OK':
-                raise self.MailError('Unable to open the mailbox: %s' % str(rv))
+                raise MailError('Unable to open the mailbox: %s' % str(rv))
             else:
                 logging.debug(data)
         except Exception as error:
-            raise self.MailError('Unable to connect to mailbox: %s' % (', '.join(map(str, error.args))))
+            raise MailError('Unable to connect to mailbox: %s' % (', '.join(map(str, error.args))))
         
     def is_connected(self):
         if self.mailbox is not None:
@@ -109,9 +109,9 @@ class MailReader(Mail):
             mail_data.uid = uid
             mail_data.raw = msg
             mail_data.type = body.type
-            mail_data.mail_from = self.decode_mail_data(msg['From'])
-            mail_data.mail_subject = self.decode_mail_data(msg['Subject'])
-            mail_data.mail_body = body.content
+            mail_data.sender = self.decode_mail_data(msg['From'])
+            mail_data.subject = self.decode_mail_data(msg['Subject'])
+            mail_data.body = body.content
             
             return mail_data
         except Exception as error:
@@ -138,7 +138,7 @@ class MailReader(Mail):
                 return
         except Exception as error:
             self.disconnect()
-            return self.MailError('The mailbox cannot be searched: %s' % ', '.join(map(str, error.args)))
+            return MailError('The mailbox cannot be searched: %s' % ', '.join(map(str, error.args)))
                                   
         mails = []
         max_uid = self.last_uid
