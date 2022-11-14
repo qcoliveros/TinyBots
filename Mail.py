@@ -80,8 +80,8 @@ class MailDataType(Enum):
     HTML = 2
 
 class MailBody:
-    content: str = ''
-    type: MailDataType = MailDataType.TEXT
+    content = ''
+    type = MailDataType.TEXT
     
     def __str__(self):
         return '{type:%s, content:%s}' % (self.type, self.content)
@@ -90,12 +90,12 @@ class MailBody:
         return self.__str__()
     
 class MailData:
-    uid: str = ''
-    raw: str = ''
-    type: MailDataType = MailDataType.TEXT
-    sender: str = ''
-    subject: str = ''
-    body: str = ''
+    uid = ''
+    raw = ''
+    type = MailDataType.TEXT
+    sender = ''
+    subject = ''
+    body = ''
     
     def __str__(self):
         return '{uid:%s, type:%s, sender:%s, subject:%s, body:%s}' % (self.uid, self.type, self.sender, self.subject, self.body) 
