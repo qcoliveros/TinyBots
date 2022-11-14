@@ -123,8 +123,6 @@ class MailReader(Mail):
         
         search_string = self.config.imap_search
         if not search_string:
-            search_string = "(UID %s:* UNSEEN)" % str(self.last_uid)
-        else:
             search_string = re.sub(r'\${lastUID}', str(self.last_uid), search_string, flags=re.IGNORECASE)
 
         if re.match(r'.*\bUID\b\s*:.*', search_string) and self.last_uid == '':

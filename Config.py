@@ -20,7 +20,7 @@ class Config:
     
     imap_server = None
     imap_folder = 'INBOX'
-    imap_search = '(UID ${lastUID}:* UNSEEN)'
+    imap_search = '(UNSEEN)'
 
     # Configuration for Telegram.
     tg_bot_token = None
