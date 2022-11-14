@@ -10,6 +10,7 @@ else:
     from urllib import urlopen, urlencode, quote, unquote
 
 from Config import *
+from enum import Enum
 
 '''
 Register with Google as an OAuth application and obtain an OAuth client ID and client secret.
@@ -73,3 +74,19 @@ class Mail:
             auth_str = base64.b64encode(auth_str.encode()).decode()
         
         return auth_str
+
+class MailDataType(Enum):
+    TEXT = 1
+    HTML = 2
+
+class MailBody:
+    content: str = ''
+    type: MailDataType = MailDataType.TEXT
+    
+class MailData:
+    uid: str = ''
+    raw: str = ''
+    type: MailDataType = MailDataType.TEXT
+    mail_from: str = ''
+    mail_subject: str = ''
+    mail_body: str = ''

@@ -8,9 +8,6 @@ import typing
 
 from Helper import *
 from Mail import *
-from MailBody import *
-from MailData import *
-from MailDataType import *
 
 class MailReader(Mail):
     mailbox: typing.Optional[imaplib.IMAP4_SSL] = None
