@@ -21,7 +21,7 @@ class MailToTelegramForwarder(Forwarder):
             mails = self.mail.search_mails()
             logging.debug(mails)
             
-            # TODO: Push email to Telegram.
+            #self.telegram.send_message(mails)
         except Exception as error:
             logging.error(error)
         finally:

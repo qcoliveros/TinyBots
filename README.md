@@ -25,6 +25,7 @@ cd TinyBots
 ```
 4. Setup the configuration file.
     * Refer to *Setup OAuth2 Authentication for Gmail account* for the information needed to provide under *Mail* section.
+    * Refer to *Setup Telegram Bot* for the information needed to provide under *Telegram* section.
 
 ```
 cp application.conf.example application.conf
@@ -64,3 +65,18 @@ python3 TelegramToMailForwarder.py -c application.conf
     4. Click *Create*.
     5. Download the OAuth client JSON file.
 5. Based on the OAuth client information, generate the refresh token using the Google Gmail tool: https://github.com/google/gmail-oauth2-tools/blob/master/python/oauth2.py
+
+
+## Setup the Telegram Bot
+1. Start a new conversation with the BotFather.
+2. Send /newbot to create a new Telegram bot.
+3. When asked, enter a name for the bot.
+4. Give the Telegram bot a unique username.
+5. Copy and save the Telegram bot's access token.
+6. Add the Telegram bot to the chat group.
+7. Get the list of updates for your Telegram bot:
+
+```
+https://api.telegram.org/bot<YourBOTToken>/getUpdates
+```
+8. Look for the "chat" object to get the chat id.
