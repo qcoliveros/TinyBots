@@ -65,6 +65,10 @@ python3 TelegramToMailForwarder.py -c application.conf
     4. Click *Create*.
     5. Download the OAuth client JSON file.
 5. Based on the OAuth client information, generate the refresh token using the Google Gmail tool: https://github.com/google/gmail-oauth2-tools/blob/master/python/oauth2.py
+6. Publish the application.
+    1. Click *OAuth consent screen*.
+    2. Click *Publish App*.
+    3. Click *Confirm* to push to production.
 
 
 ## Setup the Telegram Bot
