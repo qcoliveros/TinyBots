@@ -12,7 +12,7 @@ sudo apt install python3
     * configparser
     * imaplib2
     * logging
-    * python-telegram-bot
+    * pyTelegramBotAPI
 
  ```
  pip install <module>
