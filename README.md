@@ -53,8 +53,8 @@ python3 TelegramToMailForwarder.py -c application.conf
     1. Click *OAuth consent screen*.
     2. Provide the following information:
         * App name
-        * User support email
-        * Email addresses
+        * User support email: <Provide the same email address>
+        * Email addresses: <Provide the same email address>
     3. Click *Save and Continue*
 4. Create credentials.
     1. Click *Credentials*.

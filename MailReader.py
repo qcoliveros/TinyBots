@@ -29,14 +29,14 @@ class MailReader(Mail):
             if rv != 'OK':
                 self.disconnect()
                 raise MailError('Unable to get the list of mail folders: %s' % str(rv))
-            else:
-                logging.debug(mailboxes)
+            '''else:
+                logging.debug(mailboxes)'''
                 
             rv, data = self.mailbox.select(self.config.imap_folder)
             if rv != 'OK':
                 raise MailError('Unable to open the mailbox: %s' % str(rv))
-            else:
-                logging.debug(data)
+            '''else:
+                logging.debug(data)'''
         except Exception as error:
             raise MailError('Unable to connect to mailbox: %s' % (', '.join(map(str, error.args))))
         
@@ -155,6 +155,9 @@ class MailReader(Mail):
                 logging.critical("Unable to process mail with UID '%s': %s" % (current_uid, ', '.join(map(str, mail_error.args))))
             finally:
                 max_uid = current_uid
+                
+        if len(mails) == 0:
+            logging.info('No new message was found in the mailbox.')
                 
         return mails
 

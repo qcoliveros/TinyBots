@@ -19,13 +19,13 @@ class MailToTelegramForwarder(Forwarder):
             
             # Retrieve all unread mails.
             mails = self.mail.search_mails()
-            logging.debug(mails)
             
-            #self.telegram.send_message(mails)
+            # Forward the mails to Telegram.
+            self.telegram.send_message(mails)
+            
+            self.mail.disconnect()
         except Exception as error:
             logging.error(error)
-        finally:
-            self.mail.disconnect()
 
 if __name__ == '__main__':
     forwarder = MailToTelegramForwarder()
