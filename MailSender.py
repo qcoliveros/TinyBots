@@ -22,14 +22,13 @@ class MailSender(Mail):
     def connect(self):
         try:
             response = self.refresh_token()
-            auth_str = self.generate_auth_str(response['access_token'], base64_encode=False)
-            base64_auth_str = base64.b64encode(auth_str.encode('ascii')).decode('ascii')
+            auth_str = self.generate_auth_str(response['access_token'], base64_encode=True)
             
             self.mailbox = smtplib.SMTP('smtp.gmail.com:587')
             self.mailbox.set_debuglevel(True)
             self.mailbox.ehlo(self.config.client_id)
             self.mailbox.starttls()
-            self.mailbox.docmd('AUTH', 'XOAUTH2 ' + base64_auth_str)
+            self.mailbox.docmd('AUTH', 'XOAUTH2 ' + auth_str)
 
         except Exception as error:
             raise MailError('Unable to connect to mailbox: %s' % (', '.join(map(str, error.args))))
@@ -81,8 +80,8 @@ class MailSender(Mail):
             if(emailTo == "" or emailSubject == ""): 
                 return 0
 
-            print("emailTo: ", emailTo)
-            print("emailSubject: ", emailSubject)
+            # print("emailTo: ", emailTo)
+            # print("emailSubject: ", emailSubject)
             msg = MIMEMultipart('related')
             msg['Subject'] = emailSubject
             msg['From'] = self.config.email_user
@@ -94,7 +93,6 @@ class MailSender(Mail):
             part_html = MIMEText(self.message.encode('utf-8'), 'html', _charset='utf-8')
             msg_alternative.attach(part_text)
             msg_alternative.attach(part_html)
-            print("before sendmail...")
             self.mailbox.sendmail(self.config.email_user, emailTo, msg.as_string())
         except Exception as error:
             self.disconnect()
