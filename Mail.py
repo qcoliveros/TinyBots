@@ -39,6 +39,9 @@ class Mail:
         params['redirect_uri'] = self.config.redirect_uri
         params['scope'] = self.config.scope_uri
         params['response_type'] = 'code'
+        params['prompt'] = 'consent'
+        params['access_type'] = 'offline'
+        params['include_granted_scopes'] = 'true'
         
         return '%s?%s' % (self.config.auth_uri, self.format_url_params(params))
     
@@ -59,6 +62,8 @@ class Mail:
         params['client_secret'] = self.config.client_secret
         params['refresh_token'] = self.config.refresh_token
         params['grant_type'] = 'refresh_token'
+        params['access_type'] = 'offline'
+        params['include_granted_scopes'] = 'true'
         
         response = urlopen(self.config.token_uri, urlencode(params).encode()).read()
         return json.loads(response.decode())
