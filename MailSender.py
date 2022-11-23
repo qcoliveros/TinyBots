@@ -88,31 +88,24 @@ class MailSender(Mail):
 
             emailTo = self.decode_message_data("From:")
             emailSubject = self.decode_message_data("Subject:")
+            if(emailTo == "" or emailSubject == ""): 
+                return 0
+
             print("emailTo: ", emailTo)
             print("emailSubject: ", emailSubject)
-            # emailTo = "bkenlim@yahoo.com"
-            # emailSubject = "HELLO WORLD!"
             msg = MIMEMultipart('related')
             msg['Subject'] = emailSubject
             msg['From'] = self.config.email_user
             msg['To'] = emailTo
-            # msg['Subject'] = self.decode_message_data(message, "Subject:")
-            # msg['From'] = self.config.email_user
-            # msg['To'] = self.decode_message_data(message, "From:")
-            # print("--From:", msg['From'], "--To", msg['To'], "--Subject:", msg['Subject'], "--Message Text:", msg.as_string())
-
             msg.preamble = 'This is a multi-part message in MIME format.'
             msg_alternative = MIMEMultipart('alternative')
             msg.attach(msg_alternative)
-            # print("before part_text...")
             part_text = MIMEText(lxml.html.fromstring(self.message).text_content().encode('utf-8'), 'plain', _charset='utf-8')
             part_html = MIMEText(self.message.encode('utf-8'), 'html', _charset='utf-8')
             msg_alternative.attach(part_text)
             msg_alternative.attach(part_html)
             print("before sendmail...")
-            # self.mailbox.sendmail(msg['From'], msg['To'], msg.as_string())
             self.mailbox.sendmail(self.config.email_user, emailTo, msg.as_string())
-            # self.mailbox.quit()
         except Exception as error:
             self.disconnect()
             return MailError('Unable to send email: %s' % ', '.join(map(str, error.args)))

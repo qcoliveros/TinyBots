@@ -19,15 +19,12 @@ class TelegramToMailForwarder(Forwarder):
         try:
             self.mail.connect()
 
-            # self.mail.send_mail('<tinybots238@gmail.com>', '<bkenlim@yahoo.com>', 'IS 238 Test-before msg received', 'Hello, this is a test email from python.')
-
-            # message = self.telegram.receive_message()
             @self.telegram.bot.message_handler(func=lambda message: True)
             def handle_message(message):
-                # self.telegram.bot.reply_to(message, message.text)
-                # print(message.reply_to_message.text)
-                
-                self.mail.send_mail(message.reply_to_message.text, message.text)
+                if(message.reply_to_message is not None): 
+                    reply_to_msg = message.reply_to_message.text
+                    if(re.search('From:',reply_to_msg) is not None and re.search('Subject:',reply_to_msg) is not None): 
+                        self.mail.send_mail(reply_to_msg, message.text)
 
             self.telegram.bot.infinity_polling();
             
