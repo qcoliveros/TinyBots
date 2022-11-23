@@ -62,19 +62,10 @@ class MailSender(Mail):
             lines = self.reply_to_message.split("\n")
 
             for line in lines: 
-                # print(line)
                 words = line.split() 
                 if(words): 
                     if(words[0] == search_string): 
                         result = " ".join(words[1:])
-                        # if(search_string == "From:"): 
-                            # for w in words: 
-                            #     print(w)
-                            #     if(w[0] == "<" and w[-1] == ">"): 
-                            #         result = w
-                        # elif(search_string == "Subject:"): 
-                            # result = ' '.join(words[1:])
-            # print(result)
             return result
         except Exception as error:
             logging.debug("Unable to decode message data: %s" % ', '.join(error.args))
@@ -82,7 +73,6 @@ class MailSender(Mail):
     
     def send_mail(self,reply_to_message,message):
         try:
-            # print("Message received>>>>\n", message)
             self.message = message
             self.reply_to_message = reply_to_message
 
