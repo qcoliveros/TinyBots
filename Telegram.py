@@ -3,6 +3,9 @@ import logging
 import re
 import telebot
 import unicodedata
+from email.message import EmailMessage 
+import ssl 
+import smtplib 
 
 from Config import *
 from Helper import *
@@ -132,3 +135,26 @@ class Telegram:
                 error_msgs = [Helper.decode_binary(arg) for arg in exception.args]
                 logging.critical('Failed to send UID %s message to %s: %s' \
                                  % (mail.uid, str(self.config.tg_chat_id), ', '.join(error_msgs)))
+
+
+    '''
+    Receive messages on Telegram
+    '''
+    def receive_message(self):
+        try:
+            # @self.bot.message_handler(commands=['start', 'help'])
+            # def send_welcome(message):
+            #     self.bot.reply_to(message, "Howdy, how are you doing?")
+
+            @self.bot.message_handler(func=lambda message: True)
+            def handle_message(message):
+                self.bot.reply_to(message, message)
+                return message
+
+            # self.bot.infinity_polling()
+
+        except Exception as exception:
+            error_msgs = [Helper.decode_binary(arg) for arg in exception.args]
+            logging.critical('Failed to receive message %s : %s' \
+                                % (str(self.config.tg_chat_id), ', '.join(error_msgs)))
+
