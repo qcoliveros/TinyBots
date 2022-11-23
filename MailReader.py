@@ -23,7 +23,7 @@ class MailReader(Mail):
             
             rv, data = self.mailbox.authenticate('XOAUTH2', lambda x: auth_str)
             if rv != 'OK':
-                raise MailError('Unable to connect to mailbox: %s' % (', '.join(map(str, error.args))))
+                raise MailError('Unable to connect to mailbox: %s' % str(rv))
             
             rv, mailboxes = self.mailbox.list()
             if rv != 'OK':
@@ -38,7 +38,7 @@ class MailReader(Mail):
             '''else:
                 logging.debug(data)'''
         except Exception as error:
-            raise MailError('Unable to connect to mailbox: %s' % (', '.join(map(str, error.args))))
+            raise MailError('Unable to connect to mailbox: %s' % error.msg)
         
     def is_connected(self):
         if self.mailbox is not None:
@@ -47,7 +47,7 @@ class MailReader(Mail):
                 if rv == 'OK':
                     return True
             except Exception as error:
-                logging.error('Error during connection check: %s' % (', '.join(map(str, error.args))))
+                logging.error('Error during connection check: %s' % error.msg)
                 pass
         return False
         
@@ -57,7 +57,7 @@ class MailReader(Mail):
                 self.mailbox.close()
                 self.mailbox.logout()
             except Exception as error:
-                logging.debug("Unable to close the mailbox: %s" % ', '.join(error.args))
+                logging.debug("Unable to close the mailbox: %s" % error.msg)
                 pass
             finally:
                 self.mailbox = None
@@ -136,7 +136,7 @@ class MailReader(Mail):
                 return
         except Exception as error:
             self.disconnect()
-            return MailError('The mailbox cannot be searched: %s' % ', '.join(map(str, error.args)))
+            return MailError('The mailbox cannot be searched: %s' % error.msg)
                                   
         mails = []
         max_uid = self.last_uid
@@ -152,7 +152,7 @@ class MailReader(Mail):
                 if mail is not None:
                     mails.append(mail)
             except Exception as error:
-                logging.critical("Unable to process mail with UID '%s': %s" % (current_uid, ', '.join(map(str, mail_error.args))))
+                logging.critical("Unable to process mail with UID '%s': %s" % (current_uid, error.msg))
             finally:
                 max_uid = current_uid
                 
