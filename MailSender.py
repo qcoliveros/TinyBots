@@ -6,12 +6,11 @@ import re
 import socket
 import typing
 import lxml.html
-from Helper import *
-from Mail import *
+
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
-
+from Helper import *
+from Mail import *
 
 class MailSender(Mail):
     mailbox: typing.Optional[smtplib.SMTP] = None
@@ -68,7 +67,6 @@ class MailSender(Mail):
             return result
         except Exception as error:
             logging.debug("Unable to decode message data: %s" % ', '.join(error.args))
-
     
     def send_mail(self,reply_to_message,message):
         try:
@@ -97,5 +95,3 @@ class MailSender(Mail):
         except Exception as error:
             self.disconnect()
             return MailError('Unable to send email: %s' % ', '.join(map(str, error.args)))
-
-

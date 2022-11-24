@@ -1,9 +1,9 @@
 import logging
 
+from email.message import EmailMessage 
 from Forwarder import *
 from MailSender import *
 from Telegram import *
-from email.message import EmailMessage 
 
 class TelegramToMailForwarder(Forwarder):
     mail: MailSender
@@ -17,7 +17,6 @@ class TelegramToMailForwarder(Forwarder):
         super().__init__()
         self.mail = MailSender(self.config)
         self.telegram = Telegram(self.config)
-
 
     def start(self):
         try:
@@ -54,7 +53,6 @@ class TelegramToMailForwarder(Forwarder):
 
             self.telegram.bot.infinity_polling();
             
-
         except Exception as error:
             logging.error(error)
 
