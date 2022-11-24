@@ -11,7 +11,9 @@ sudo apt install python3
     * argparse
     * configparser
     * imaplib2
+    * smtplib
     * logging
+    * lxml
     * pyTelegramBotAPI
 
  ```
