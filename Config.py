@@ -19,6 +19,7 @@ class Config:
     refresh_token = None
     
     imap_server = None
+    smtp_server = None
     imap_folder = 'INBOX'
     imap_search = '(UNSEEN)'
 
@@ -51,6 +52,7 @@ class Config:
             self.refresh_token = self.get_config('Mail', 'RefreshToken', self.refresh_token)
             
             self.imap_server = self.get_config('Mail', 'ImapServer', self.imap_server)
+            self.smtp_server = self.get_config('Mail', 'SmtpServer', self.smtp_server)
             
             self.tg_bot_token = self.get_config('Telegram', 'BotToken', self.tg_bot_token)
             self.tg_chat_id = self.get_config('Telegram', 'ChatId', self.tg_chat_id, int)

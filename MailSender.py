@@ -24,7 +24,7 @@ class MailSender(Mail):
             response = self.refresh_token()
             auth_str = self.generate_auth_str(response['access_token'], base64_encode=True)
             
-            self.mailbox = smtplib.SMTP('smtp.gmail.com:587')
+            self.mailbox = smtplib.SMTP(self.config.smtp_server)
             self.mailbox.set_debuglevel(True)
             self.mailbox.ehlo(self.config.client_id)
             self.mailbox.starttls()
