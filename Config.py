@@ -32,7 +32,7 @@ class Config:
         try:
             args_parser = argparse.ArgumentParser()
             args_parser.add_argument('-c', '--config', type=str, required=True)
-            args = args_parser.parse_args()
+            args, unknown = args_parser.parse_known_args()
             
             self.config_parser = configparser.ConfigParser()
             files = self.config_parser.read(args.config)
