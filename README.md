@@ -66,7 +66,17 @@ python3 TelegramToMailForwarder.py -c application.conf
         * Name
     4. Click *Create*.
     5. Download the OAuth client JSON file.
-5. Based on the OAuth client information, generate the refresh token using the Google Gmail tool: https://github.com/google/gmail-oauth2-tools/blob/master/python/oauth2.py
+5. Based on the OAuth client information, generate the refresh token using the *oauth2.py* tool.
+    1. Run the following to generate the permission URL.
+
+```
+python3 oauth2.py -c application.conf --generate_permission_url
+```
+    2. Run the following to generate the refresh token.
+
+```
+python3 oauth2.py -c application.conf --generate_refresh_token
+```
 6. Publish the application.
     1. Click *OAuth consent screen*.
     2. Click *Publish App*.
