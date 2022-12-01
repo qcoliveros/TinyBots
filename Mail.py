@@ -52,6 +52,8 @@ class Mail:
         params['code'] = self.config.auth_code
         params['redirect_uri'] = self.config.redirect_uri
         params['grant_type'] = 'authorization_code'
+        params['access_type'] = 'offline'
+        params['include_granted_scopes'] = 'true'
         
         response = urlopen(self.config.token_uri, urlencode(params).encode()).read()
         return json.loads(response.decode())
