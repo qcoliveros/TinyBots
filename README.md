@@ -24,12 +24,12 @@ git clone https://github.com/mcoliveros/TinyBots.git TinyBots
 cd TinyBots
 ```
 4. Setup the configuration file.
-    * Refer to *Setup OAuth2 Authentication for Gmail account* for the information needed to provide under *Mail* section.
-    * Refer to *Setup Telegram Bot* for the information needed to provide under *Telegram* section.
 
 ```
 cp application.conf.example application.conf
 ```
+* Refer to *[Setup OAuth2 Authentication for Gmail account](#setup-oauth2-authentication-for-gmail-account)* for the information needed to provide under *Mail* section.
+* Refer to *[Setup Telegram Bot](#setup-the-telegram-bot)* for the information needed to provide under *Telegram* section.
 
 
 ## Execute the Forwarder
@@ -96,4 +96,4 @@ python3 oauth2.py -c application.conf [--generate_permission_url/--generate_refr
 ```
 https://api.telegram.org/bot<YourBOTToken>/getUpdates
 ```
-11. Look for the "chat" object to get the chat id.
+11. Look for the "chat" object of the group to get the chat id.
