@@ -9,6 +9,7 @@ import smtplib
 from email.message import EmailMessage 
 from Config import *
 from Helper import *
+from Mail import *
 
 class Telegram:
     config: Config
