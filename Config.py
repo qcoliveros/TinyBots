@@ -26,7 +26,9 @@ class Config:
     # Configuration for Telegram.
     tg_bot_token = None
     tg_chat_id = None
-    tg_prefer_html = True
+    
+    # Configuration for database.
+    db_file = None
     
     def __init__(self):
         try:
@@ -56,6 +58,8 @@ class Config:
             
             self.tg_bot_token = self.get_config('Telegram', 'BotToken', self.tg_bot_token)
             self.tg_chat_id = self.get_config('Telegram', 'ChatId', self.tg_chat_id, int)
+            
+            self.db_file = self.get_config('Database', 'File', self.db_file)
             
         except Exception as exception:
             sys.exit(2)

@@ -5,16 +5,20 @@ import time
 
 from Forwarder import *
 from MailReader import *
+from PdbcTemplate import *
 from Telegram import *
 
 class MailToTelegramForwarder(Forwarder):
+    db: PdbcTemplate
     mail: MailReader
     telegram: Telegram
     
     def __init__(self):
         super().__init__()
+        
+        self.db = PdbcTemplate(self.config)
         self.mail = MailReader(self.config)
-        self.telegram = Telegram(self.config)
+        self.telegram = Telegram(self.config, self.db)
         
     def start(self, scheduler, delay):
         try:

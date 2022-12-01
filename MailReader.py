@@ -57,7 +57,7 @@ class MailReader(Mail):
                 self.mailbox.close()
                 self.mailbox.logout()
             except Exception as error:
-                logging.debug("Unable to close the mailbox: %s" % error.msg)
+                logging.debug('Unable to close the mailbox: %s' % error.msg)
                 pass
             finally:
                 self.mailbox = None
@@ -115,7 +115,7 @@ class MailReader(Mail):
             
             return mail_data
         except Exception as error:
-            logging.critical("Unable to parse mail: %s" % error.args[0] if len(parse_error.args) > 0 else error.__str__())
+            logging.critical('Unable to parse mail: %s' % error.args[0] if len(parse_error.args) > 0 else error.__str__())
     
     def search_mails(self):
         if self.last_uid is None or self.last_uid == '':
@@ -152,7 +152,7 @@ class MailReader(Mail):
                 if mail is not None:
                     mails.append(mail)
             except Exception as error:
-                logging.critical("Unable to process mail with UID '%s': %s" % (current_uid, error.msg))
+                logging.critical('Unable to process mail with UID %s: %s' % (current_uid, error.msg))
             finally:
                 max_uid = current_uid
                 

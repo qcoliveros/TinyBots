@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Ignnore configuration file that might contains credentials.
+# Ignnore configuration files that might contain credentials.
 *.conf
+
+# Ignore DB files.
+*.db

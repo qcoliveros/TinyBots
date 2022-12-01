@@ -10,13 +10,16 @@ from email.message import EmailMessage
 from Config import *
 from Helper import *
 from Mail import *
+from PdbcTemplate import *
 
 class Telegram:
     config: Config
+    db: PdbcTemplate
     bot: telebot.TeleBot
     
-    def __init__(self, config):
+    def __init__(self, config, db):
         self.config = config
+        self.db = db
         self.bot = telebot.TeleBot(self.config.tg_bot_token)
         
     '''

@@ -17,3 +17,6 @@ RefreshToken=
 [Telegram]
 BotToken=
 ChatId=
+
+[Database]
+File=tinybots.db

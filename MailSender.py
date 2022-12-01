@@ -14,7 +14,6 @@ from Mail import *
 
 class MailSender(Mail):
     mailbox: typing.Optional[smtplib.SMTP] = None
-    last_uid = ''
     message = ''
     reply_to_message = ''
     
@@ -49,7 +48,7 @@ class MailSender(Mail):
                 self.mailbox.close()
                 self.mailbox.quit()
             except Exception as error:
-                logging.debug("Unable to close the mailbox: %s" % ', '.join(error.args))
+                logging.debug('Unable to close the mailbox: %s' % ', '.join(error.args))
                 pass
             finally:
                 self.mailbox = None
@@ -57,29 +56,27 @@ class MailSender(Mail):
     def decode_message_data(self,search_string):
         try: 
             result = ''
-            lines = self.reply_to_message.split("\n")
+            lines = self.reply_to_message.split('\n')
 
             for line in lines: 
                 words = line.split() 
                 if(words): 
                     if(words[0] == search_string): 
-                        result = " ".join(words[1:])
+                        result = ' '.join(words[1:])
             return result
         except Exception as error:
-            logging.debug("Unable to decode message data: %s" % ', '.join(error.args))
+            logging.debug('Unable to decode message data: %s' % ', '.join(error.args))
     
     def send_mail(self,reply_to_message,message):
         try:
             self.message = message
             self.reply_to_message = reply_to_message
 
-            emailTo = self.decode_message_data("From:")
-            emailSubject = self.decode_message_data("Subject:")
-            if(emailTo == "" or emailSubject == ""): 
+            emailTo = self.decode_message_data('From:')
+            emailSubject = self.decode_message_data('Subject:')
+            if emailTo == '' or emailSubject == '': 
                 return 0
 
-            # print("emailTo: ", emailTo)
-            # print("emailSubject: ", emailSubject)
             msg = MIMEMultipart('related')
             msg['Subject'] = emailSubject
             msg['From'] = self.config.email_user
