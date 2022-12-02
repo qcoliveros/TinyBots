@@ -133,3 +133,4 @@ dmypy.json
 
 # Ignore DB files.
 *.db
+*.db-journal
