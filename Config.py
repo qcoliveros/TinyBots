@@ -26,6 +26,7 @@ class Config:
     # Configuration for Telegram.
     tg_bot_token = None
     tg_chat_id = None
+    tg_html_format = True
     
     # Configuration for database.
     db_file = None

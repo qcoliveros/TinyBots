@@ -10,14 +10,14 @@ from email.message import EmailMessage
 from Config import *
 from Helper import *
 from Mail import *
-from PdbcTemplate import *
+from SimplePdbc import *
 
 class Telegram:
     config: Config
-    db: PdbcTemplate
+    db: SimplePdbc
     bot: telebot.TeleBot
     
-    def __init__(self, config, db):
+    def __init__(self, config, db=None):
         self.config = config
         self.db = db
         self.bot = telebot.TeleBot(self.config.tg_bot_token)
@@ -37,12 +37,12 @@ class Telegram:
                              tg_body,
                              flags=(re.DOTALL | re.MULTILINE | re.IGNORECASE))
             # Remove control characters.
-            tg_body = "".join(ch for ch in tg_body if "C" != unicodedata.category(ch)[0])
+            tg_body = ''.join(ch for ch in tg_body if 'C' != unicodedata.category(ch)[0])
             # Remove all HTML comments.
             tg_body = re.sub(r'<!--.*?-->', '', tg_body, flags=(re.DOTALL | re.MULTILINE))
             # Remove multiple line breaks and spaces.
             tg_body = re.sub(r'\s\s+', ' ', tg_body).strip()
-            # Remove attributes from elements but href of "a"- elements.
+            # Remove attributes from elements but href of 'a'- elements.
             tg_msg = re.sub(r'<\s*?(?P<elem>\w+)\b\s*?[^>]*?(?P<ref>\s+href\s*=\s*"[^"]+")?[^>]*?>',
                             '<\g<elem>\g<ref>>', 
                             tg_body, 
@@ -81,12 +81,12 @@ class Telegram:
             # Remove empty elements.
             tg_msg = re.sub(r'<\s*\w\s*>\s*</\s*\w\s*>', ' ', tg_msg, flags=(re.DOTALL | re.MULTILINE))
             # Remove multiple line breaks.
-            tg_msg = re.sub(r'\s*[\r\n](\s*[\r\n])+', "\n", tg_msg)
+            tg_msg = re.sub(r'\s*[\r\n](\s*[\r\n])+', '\n', tg_msg)
             # Preserve nbsp.
             tg_msg = re.sub(r'&nbsp;', ' ', tg_msg, flags=re.IGNORECASE)
             
             # Remove multiple line breaks (keeping up to 1 empty line).
-            tg_msg = re.sub(r'(\s*\r?\n){2,}', "\n\n", tg_msg)
+            tg_msg = re.sub(r'(\s*\r?\n){2,}', '\n\n', tg_msg)
             # Add space after links.
             tg_msg = re.sub(r'(?P<a></a>(\s*&gt;)?)\s*', '\g<a>\n\n', tg_msg, flags=re.MULTILINE)
             # Remove spaces and line breaks on start and end.
@@ -101,45 +101,49 @@ class Telegram:
     '''
     Send the mails to Telegram.
     '''
-    def send_message(self, mails: [MailData]):
+    def send_message(self, mails: MailData):
         for mail in mails:
             try:
-                logging.debug(mail)
-                    
-                summary_line = "\n"
-                
-                if mail.type == MailDataType.HTML:
+                content = '\n\n' + self.escape_html(mail.body)
+                if self.config.tg_html_format:
                     parser = 'HTML'
                     
-                    sender = html.escape(mail.sender, quote=True)
-                    subject = mail.subject
-                    content = self.escape_html(mail.body)
+                    sender = '<b>From:</b> ' + html.escape(mail.sender, quote=True)
+                    subject = '\n<b>Subject:</b> ' + mail.subject
                     
-                    text = "<b>From:</b> " + sender + "\n<b>Subject:</b> "
                 else:
                     parser = 'MarkdownV2'
                     
-                    sender = telebot.formatting.escape_markdown(mail.sender)
-                    subject = telebot.formatting.escape_markdown(mail.subject)
-                    content = telebot.formatting.escape_markdown(mail.body)
+                    sender = '*From:* ' + telebot.formatting.escape_markdown(mail.sender)
+                    subject = '\n*Subject:* ' + telebot.formatting.escape_markdown(mail.subject)
                     
-                    text = "*From:* " + sender + "\n*Subject:* "
-                    
-                message = text + subject + summary_line + content
-                logging.debug(message)
-
-                response = self.bot.send_message(chat_id=self.config.tg_chat_id,
-                                              parse_mode=parser,
-                                              text=message,
-                                              disable_web_page_preview=False)
+                logging.debug(sender + subject + content)
                 
+                last_message_id = self.db.get_user_message_id(mail.sender);
+                if len(last_message_id) > 0:
+                    logging.info('last message id for %s is %s' % (mail.sender, str(last_message_id[0])))
+                    
+                    message = subject + content
+                    response = self.bot.send_message(chat_id=self.config.tg_chat_id,
+                                                  parse_mode=parser,
+                                                  text=message,
+                                                  disable_web_page_preview=False,
+                                                  reply_to_message_id=last_message_id[0])
+                    self.db.update_user_message_id(mail.sender, response.message_id)
+                else:
+                    message = sender + subject + content
+                    response = self.bot.send_message(chat_id=self.config.tg_chat_id,
+                                                  parse_mode=parser,
+                                                  text=message,
+                                                  disable_web_page_preview=False)
+                    self.db.create_user(mail.sender, response.message_id)
+                    
                 logging.info('Successfully sent UID %s message to %s with message id %s' \
                              % (mail.uid, str(self.config.tg_chat_id), str(response.message_id)))
             except Exception as exception:
                 error_msgs = [Helper.decode_binary(arg) for arg in exception.args]
                 logging.critical('Failed to send UID %s message to %s: %s' \
                                  % (mail.uid, str(self.config.tg_chat_id), ', '.join(error_msgs)))
-
 
     '''
     Receive messages on Telegram.
