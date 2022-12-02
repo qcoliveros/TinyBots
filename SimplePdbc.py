@@ -23,9 +23,11 @@ class SimplePdbc:
         
     def create_user(self, user, last_message_id):
         self.connection.execute('INSERT INTO user_message (user, last_message_id) VALUES (?, ?)', (user, last_message_id))
+        self.connection.commit()
         
     def update_user_message_id(self, user, last_message_id):
         self.connection.execute('UPDATE user_message SET last_message_id = ? WHERE user = ?', (last_message_id, user))
+        self.connection.commit()
         
     def get_user_message_id(self, user):
         return self.connection.execute('SELECT last_message_id FROM user_message WHERE user = ?', (user,)).fetchall()

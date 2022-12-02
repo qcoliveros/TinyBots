@@ -120,9 +120,8 @@ class Telegram:
                 logging.debug(sender + subject + content)
                 
                 last_message_id = self.db.get_user_message_id(mail.sender);
+                logging.info('last message id for %s is %s' % (mail.sender, str(last_message_id)))
                 if len(last_message_id) > 0:
-                    logging.info('last message id for %s is %s' % (mail.sender, str(last_message_id[0])))
-                    
                     message = subject + content
                     response = self.bot.send_message(chat_id=self.config.tg_chat_id,
                                                   parse_mode=parser,
