@@ -132,7 +132,8 @@ class MailReader(Mail):
             return
         
         try:
-            rv, data = self.mailbox.uid('search', search_string)
+            self.mailbox.select(self.config.imap_folder)
+            rv, data = self.mailbox.search(None, search_string)
             if rv != 'OK':
                 logging.debug('No message was found in the mailbox.')
                 return
@@ -145,7 +146,7 @@ class MailReader(Mail):
         for data_current_uid in sorted(data[0].split()):
             current_uid = Helper.decode_binary(data_current_uid)
             try:
-                rv, data = self.mailbox.uid('fetch', data_current_uid, '(RFC822)')
+                rv, data = self.mailbox.fetch(data_current_uid, '(RFC822)')
                 if rv != 'OK':
                     logging.debug('Error getting message for %s.' % current_uid)
                     return
