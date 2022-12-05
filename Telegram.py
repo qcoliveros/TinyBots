@@ -80,11 +80,8 @@ class Telegram:
                             flags=(re.DOTALL | re.MULTILINE | re.IGNORECASE))
             # Remove empty elements.
             tg_msg = re.sub(r'<\s*\w\s*>\s*</\s*\w\s*>', ' ', tg_msg, flags=(re.DOTALL | re.MULTILINE))
-            # Remove multiple line breaks.
-            tg_msg = re.sub(r'\s*[\r\n](\s*[\r\n])+', '\n', tg_msg)
             # Preserve nbsp.
             tg_msg = re.sub(r'&nbsp;', ' ', tg_msg, flags=re.IGNORECASE)
-            
             # Remove multiple line breaks (keeping up to 1 empty line).
             tg_msg = re.sub(r'(\s*\r?\n){2,}', '\n\n', tg_msg)
             # Add space after links.
@@ -104,6 +101,7 @@ class Telegram:
     def send_message(self, mails: MailData):
         for mail in mails:
             try:
+                logging.debug('Original email content: %s' % mail.body)
                 content = '\n\n' + self.escape_html(mail.body)
                 if self.config.tg_html_format:
                     parser = 'HTML'
