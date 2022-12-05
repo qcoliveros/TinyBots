@@ -18,10 +18,11 @@ class Config:
     auth_code = None
     refresh_token = None
     
+    imap_folder = 'INBOX'
+    imap_search = None
+    
     imap_server = None
     smtp_server = None
-    imap_folder = 'INBOX'
-    imap_search = '(UNSEEN)'
 
     # Configuration for Telegram.
     tg_bot_token = None
@@ -53,6 +54,9 @@ class Config:
             
             self.auth_code = self.get_config('Mail', 'AuthorizeCode', self.auth_code)
             self.refresh_token = self.get_config('Mail', 'RefreshToken', self.refresh_token)
+            
+            self.imap_folder = self.get_config('Mail', 'ImapFolder', self.imap_folder)
+            self.imap_search = self.get_config('Mail', 'ImapSearch', self.imap_search)
             
             self.imap_server = self.get_config('Mail', 'ImapServer', self.imap_server)
             self.smtp_server = self.get_config('Mail', 'SmtpServer', self.smtp_server)
