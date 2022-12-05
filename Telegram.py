@@ -101,7 +101,7 @@ class Telegram:
     def send_message(self, mails: MailData):
         for mail in mails:
             try:
-                logging.debug('Original email content: %s' % mail.body)
+                logging.debug('Original email content:\n%s' % mail.body)
                 content = '\n\n' + self.escape_html(mail.body)
                 if self.config.tg_html_format:
                     parser = 'HTML'
@@ -116,7 +116,7 @@ class Telegram:
                     subject = '\n*Subject:* ' + telebot.formatting.escape_markdown(mail.subject)
                     
                 message = sender + subject + content
-                logging.debug(message)
+                logging.debug('Message to be sent to Telegram:\n%s' % message)
                 
                 last_message_id = self.db.get_user_message_id(mail.sender);
                 logging.info('last message id for %s is %s' % (mail.sender, str(last_message_id)))
