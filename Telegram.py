@@ -117,12 +117,12 @@ class Telegram:
                     sender = '*From:* ' + telebot.formatting.escape_markdown(mail.sender)
                     subject = '\n*Subject:* ' + telebot.formatting.escape_markdown(mail.subject)
                     
-                logging.debug(sender + subject + content)
+                message = sender + subject + content
+                logging.debug(message)
                 
                 last_message_id = self.db.get_user_message_id(mail.sender);
                 logging.info('last message id for %s is %s' % (mail.sender, str(last_message_id)))
                 if len(last_message_id) > 0:
-                    message = subject + content
                     response = self.bot.send_message(chat_id=self.config.tg_chat_id,
                                                   parse_mode=parser,
                                                   text=message,
@@ -130,7 +130,6 @@ class Telegram:
                                                   reply_to_message_id=last_message_id[0])
                     self.db.update_user_message_id(mail.sender, response.message_id)
                 else:
-                    message = sender + subject + content
                     response = self.bot.send_message(chat_id=self.config.tg_chat_id,
                                                   parse_mode=parser,
                                                   text=message,
