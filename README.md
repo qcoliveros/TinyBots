@@ -72,7 +72,7 @@ python3 TelegramToMailForwarder.py -c application.conf
 5. Based on the OAuth client information, generate the refresh token using the *oauth2.py* tool.
 
 ```
-python3 oauth2.py -c application.conf [--generate_permission_url/--generate_refresh_token]
+python3 OAuth2.py -c application.conf [--generate_permission_url/--generate_refresh_token]
 ```
 
 6. Publish the application.
