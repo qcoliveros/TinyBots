@@ -27,25 +27,24 @@ class Telegram:
     Refer to https://core.telegram.org/bots/api#sendmessage.
     '''
     def escape_html(self, message):
-        tg_body = message
-        tg_msg = ''
+        tg_msg = message
 
         try:
             # Extract HTML body to get payload from mail.
-            tg_body = re.sub(r'.*<body[^>]*>(?P<body>.*)</body>.*$', 
+            tg_msg = re.sub(r'.*<body[^>]*>(?P<body>.*)</body>.*$', 
                              '\g<body>', 
-                             tg_body,
+                             tg_msg,
                              flags=(re.DOTALL | re.MULTILINE | re.IGNORECASE))
             # Remove control characters.
-            tg_body = ''.join(ch for ch in tg_body if 'C' != unicodedata.category(ch)[0])
+            tg_msg = ''.join(ch for ch in tg_msg if 'C' != unicodedata.category(ch)[0])
             # Remove all HTML comments.
-            tg_body = re.sub(r'<!--.*?-->', '', tg_body, flags=(re.DOTALL | re.MULTILINE))
+            tg_msg = re.sub(r'<!--.*?-->', '', tg_msg, flags=(re.DOTALL | re.MULTILINE))
             # Remove multiple line breaks and spaces.
-            tg_body = re.sub(r'\s\s+', ' ', tg_body).strip()
+            tg_msg = re.sub(r'\s\s+', ' ', tg_msg).strip()
             # Remove attributes from elements but href of 'a'- elements.
             tg_msg = re.sub(r'<\s*?(?P<elem>\w+)\b\s*?[^>]*?(?P<ref>\s+href\s*=\s*"[^"]+")?[^>]*?>',
                             '<\g<elem>\g<ref>>', 
-                            tg_body, 
+                            tg_msg, 
                             flags=(re.DOTALL | re.MULTILINE | re.IGNORECASE))
             # Remove style and script elements/blocks.
             tg_msg = re.sub(r'<\s*(?P<elem>script|style)\s*>.*?</\s*(?P=elem)\s*>',
