@@ -103,10 +103,11 @@ class Telegram:
             try:
                 logging.debug('Original email content:\n%s' % mail.body)
                 
+                content = '\n\n'
                 if mail.type == MailDataType.HTML:
-                    content = '\n\n' + self.escape_html(mail.body)
+                    content += self.escape_html(mail.body)
                 else:
-                    content = '\n\n' + mail.body
+                    content += mail.body
                     
                 if self.config.tg_html_format:
                     parser = 'HTML'
