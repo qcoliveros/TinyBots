@@ -125,7 +125,7 @@ class Telegram:
                 logging.debug('Message to be sent to Telegram:\n%s' % message)
                 
                 last_message_id = self.db.get_user_message_id(mail.sender);
-                logging.info('last message id for %s is %s' % (mail.sender, str(last_message_id)))
+                logging.info('Last message id for %s is %s' % (mail.sender, str(last_message_id)))
                 if len(last_message_id) > 0:
                     response = self.bot.send_message(chat_id=self.config.tg_chat_id,
                                                   parse_mode=parser,
