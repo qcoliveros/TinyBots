@@ -81,6 +81,12 @@ class MailSender(Mail):
             msg['Subject'] = emailSubject
             msg['From'] = self.config.email_user
             msg['To'] = emailTo
+            msg_body = """Dear from_user.first_name, \n
+                          \n
+                          reply_to_msg \n
+                          \n
+                          Best regards, \n
+                          self.user_name"""
             msg.preamble = 'This is a multi-part message in MIME format.'
             msg_alternative = MIMEMultipart('alternative')
             msg.attach(msg_alternative)
