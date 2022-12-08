@@ -50,6 +50,9 @@ class TelegramToMailForwarder(Forwarder):
                         if self.saved_username == self.user_name:
                             # if so, send the email
                             self.mail.send_mail(self.saved_reply_to_msg, self.saved_message)
+                            self.telegram.bot.reply_to(message, "Email sent.")
+                    elif re.search('Respond to Email',reply_to_msg) is not None and (message.text.lower() == 'n' or message.text.lower() == 'no'): 
+                        self.telegram.bot.reply_to(message, "Email not sent.")
 
             self.telegram.bot.infinity_polling();
             
