@@ -88,11 +88,11 @@ class MailSender(Mail):
             msg['To'] = emailTo
             
             # msg_body = """<br>Reply to:<br><br>"""
-            msg_body = """<blockquote><i>"""
-            msg_body += self.reply_to_message_text
-            msg_body += """</i></blockquote><br>"""
+            # msg_body = """<blockquote><i>"""
+            # msg_body += self.reply_to_message_text
+            # msg_body += """</i></blockquote><br>"""
             # msg_body += """<br>Dear """ + user_name
-            msg_body += message
+            msg_body = message
             msg_body += """<br><br>"""
             msg_body += """<em>Telegram response from: <strong>""" + user_name + """</strong></em>"""
             self.message = msg_body
