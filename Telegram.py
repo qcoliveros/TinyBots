@@ -83,8 +83,6 @@ class Telegram:
             tg_msg = re.sub(r'&nbsp;', ' ', tg_msg, flags=re.IGNORECASE)
             # Remove multiple line breaks (keeping up to 1 empty line).
             tg_msg = re.sub(r'(\s*\r?\n){2,}', '\n\n', tg_msg)
-            # Add space after links.
-            tg_msg = re.sub(r'(?P<a></a>(\s*&gt;)?)\s*', '\g<a>\n\n', tg_msg, flags=re.MULTILINE)
             # Remove spaces and line breaks on start and end.
             tg_msg = re.sub(r'^\s*', '', tg_msg)
             tg_msg = re.sub(r'\s*$', '', tg_msg)
