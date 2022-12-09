@@ -26,6 +26,9 @@ class TelegramToMailForwarder(Forwarder):
             def handle_message(message):
                 if message.reply_to_message is not None: 
                     reply_to_msg = message.reply_to_message.text
+                    print("message.reply_to_message.text: " + message.reply_to_message.text)
+                    print("message.text : " + message.text)
+                    # reply_to_msg = re.sub(r'\n','<br>',message.reply_to_message.text,flags=(re.MULTILINE))
                     if re.search('From:',reply_to_msg) is not None and re.search('Subject:',reply_to_msg) is not None: 
                         # get the username info from the telegram message
                         self.user_name = ' '.join(filter(None, (message.from_user.first_name, message.from_user.last_name,)))
@@ -34,7 +37,8 @@ class TelegramToMailForwarder(Forwarder):
 
                         # save the information before the bot asks  send email or not
                         self.saved_username = self.user_name
-                        self.saved_message = message.text + '\n- ' + self.user_name
+                        # self.saved_message = message.text + '\n- ' + self.user_name
+                        self.saved_message = message.text
                         self.saved_reply_to_msg = reply_to_msg
 
                         # send a confirmation message
@@ -49,7 +53,7 @@ class TelegramToMailForwarder(Forwarder):
                         # check if the confirmation message is from the same user who initially responded
                         if self.saved_username == self.user_name:
                             # if so, send the email
-                            self.mail.send_mail(self.saved_reply_to_msg, self.saved_message)
+                            self.mail.send_mail(self.saved_reply_to_msg, self.saved_message, self.user_name)
                             self.telegram.bot.reply_to(message, "Email sent.")
                     elif re.search('Respond to Email',reply_to_msg) is not None and (message.text.lower() == 'n' or message.text.lower() == 'no'): 
                         self.telegram.bot.reply_to(message, "Email not sent.")

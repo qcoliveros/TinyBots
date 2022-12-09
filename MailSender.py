@@ -16,6 +16,7 @@ class MailSender(Mail):
     mailbox: typing.Optional[smtplib.SMTP] = None
     message = ''
     reply_to_message = ''
+    reply_to_message_text = ''
     
     def connect(self):
         try:
@@ -67,26 +68,34 @@ class MailSender(Mail):
         except Exception as error:
             logging.debug('Unable to decode message data: %s' % ', '.join(error.args))
     
-    def send_mail(self,reply_to_message,message):
+    def send_mail(self,reply_to_message,message,user_name):
         try:
             self.message = message
             self.reply_to_message = reply_to_message
+            self.reply_to_message_text = "\n".join(reply_to_message.split("\n")[2:])
+            
+            # self.reply_to_message = re.sub(r'\n','<br>',reply_to_message,flags=(re.DOTALL | re.MULTILINE))
 
             emailTo = self.decode_message_data('From:')
             emailSubject = self.decode_message_data('Subject:')
             if emailTo == '' or emailSubject == '': 
                 return 0
 
+            print("self.reply_to_message::: " + self.reply_to_message)
             msg = MIMEMultipart('related')
             msg['Subject'] = emailSubject
             msg['From'] = self.config.email_user
             msg['To'] = emailTo
-            msg_body = """Dear from_user.first_name, \n
-                          \n
-                          reply_to_msg \n
-                          \n
-                          Best regards, \n
-                          self.user_name"""
+            
+            # msg_body = """<br>Reply to:<br><br>"""
+            msg_body = """<blockquote><i>"""
+            msg_body += self.reply_to_message_text
+            msg_body += """</i></blockquote><br>"""
+            # msg_body += """<br>Dear """ + user_name
+            msg_body += message
+            msg_body += """<br><br>"""
+            msg_body += """<em>Telegram response from: <strong>""" + user_name + """</strong></em>"""
+            self.message = msg_body
             msg.preamble = 'This is a multi-part message in MIME format.'
             msg_alternative = MIMEMultipart('alternative')
             msg.attach(msg_alternative)
