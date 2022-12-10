@@ -69,12 +69,16 @@ python3 TelegramToMailForwarder.py -c application.conf
         * Name
     4. Click *Create*.
     5. Download the OAuth client JSON file.
-5. Based on the OAuth client information, generate the refresh token using the *oauth2.py* tool.
+5. Based on the OAuth client information, generate the refresh token using the *OAuth2.py* tool.
+    1. Generate the permission URL. 
+    2. Authorize the application then update the *AuthorizeCode* in application.conf based on the obtained authorization code.
+    3. Generate the refresh token.
+    4. Update the *RefreshToken* in application.conf based on the obtained refresh token.
 
 ```
 python3 OAuth2.py -c application.conf [--generate_permission_url/--generate_refresh_token]
 ```
-
+     
 6. Publish the application.
     1. Click *OAuth consent screen*.
     2. Click *Publish App*.
@@ -83,13 +87,21 @@ python3 OAuth2.py -c application.conf [--generate_permission_url/--generate_refr
 
 ## Setup the Telegram Bot
 1. Start a new conversation with the BotFather.
-2. Send /newbot to create a new Telegram bot.
+2. Send the following message to create a new Telegram bot:
+
+```
+/newbot
+```
 3. Enter the name for the bot.
 4. Give the Telegram bot a unique username.
-5. Copy and save the Telegram bot's access token.
-6. Send /setprivacy to disable the privacy mode.
+5. Update the *BotToken* in application.conf based on the obtained Telegram bot's access token.
+6. Send the following message to disable the privacy mode:
+
+```
+/setprivacy
+```
 7. Specify the bot's username created in step 4.
-8. Select disable for the bot to receive all messages send to the group.
+8. Select disable for the bot to receive all messages sent to the group.
 9. Add the Telegram bot to the chat group.
 10. Get the list of updates for your Telegram bot:
 
@@ -97,3 +109,5 @@ python3 OAuth2.py -c application.conf [--generate_permission_url/--generate_refr
 https://api.telegram.org/bot<YourBOTToken>/getUpdates
 ```
 11. Look for the "chat" object of the group to get the chat id.
+12. Update the *ChatId* in application.conf based on the obtained chat id.
+
