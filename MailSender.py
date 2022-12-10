@@ -81,7 +81,7 @@ class MailSender(Mail):
             if emailTo == '' or emailSubject == '': 
                 return 0
 
-            print("self.reply_to_message::: " + self.reply_to_message)
+            logging.debug("self.reply_to_message::: " + self.reply_to_message)
             msg = MIMEMultipart('related')
             msg['Subject'] = emailSubject
             msg['From'] = self.config.email_user
