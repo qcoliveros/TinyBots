@@ -82,7 +82,7 @@ class MailError(Exception):
         super().__init__(message)
         self.errors = errors
 
-class MailAuthenticationMethod(Enum):
+class MailAuthenticationMethod(str, Enum):
     APP_PASSWORD = 'AppPassword'
     OAUTH2 = 'OAuth2'
 
