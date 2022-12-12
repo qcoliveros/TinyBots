@@ -127,19 +127,25 @@ python3 OAuth2.py -c application.conf [--generate_permission_url/--generate_refr
     Instance Type: t2.micro
     Key pair name: vockey
     Network settings: Allow SSH traffic from > Anywhere 0.0.0.0/0
+    
 2.	Launch the EC2 instance
+
 3.	Create an Elastic IP
     a.	Go to Network and Security > Elastic Ips
     b.	Click Allocate Elastic IP address
     c.	Click the Elastic IP that you have created
     d.	Click Associate Elastic IP Address
     e.	Select the TinyBots instance
+    
 4.	Open PuTTY
     a.	Session > Host Name (Elastic IP)
     b.	SSH > Auth (PEM / PPK file)
+
 5.	Login as: ubuntu
+
 6.	In the terminal
-    a.	Install Python 3
+    
+    a. Install Python 3
 
 ```
 sudo apt install python3
@@ -174,3 +180,33 @@ cd TinyBots
 ```
 sudo nano application.conf
 ```
+   Use the following values:
+[Mail]
+ImapServer=imap.googlemail.com
+SmtpServer=smtp.gmail.com
+
+User=tinybots238@gmail.com
+
+# Authentication method is defaulted to OAuth2. Possible values are 'AppPassword' and 'OAuth2'.
+AuthenticationMethod=AppPassword
+
+# If authentication method is set to 'AppPassword'.
+AppPassword=ylndodbelzdawbfe
+
+# If authentication method is set to 'OAuth2'.
+#ClientId=423123225629-din3a359pudvp8ujijs4a4gbcrh7h7nb.apps.googleusercontent.com
+#ClientSecret=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
+#AuthUri=https://accounts.google.com/o/oauth2/auth
+#TokenUri=https://oauth2.googleapis.com/token
+#AuthorizeCode=4/1AfgeXvtqVwAVvW2sQWs942v9vft5T674EnoWDlwEKcroJZkOM0hfUqyLux8
+#RefreshToken=1//099UWRgozvvFYCgYIARAAGAkSNwF-L9IrhkqrdbEw9WIVCaCUcdvnwa-PA-oB2RxPIlMeOI6mCROQgzg6pm-QUF7T15HCBlcPAcw
+
+[Telegram]
+BotToken=5621037330:AAHJxOqo8jUAkcVHpn1Ne8SQ208j6pzh2o0
+ChatId=-845399329
+
+[Database]
+File=tinybots.db
+
+# tinybots238@gmail.com / T1nyB0ts!
+   
