@@ -20,15 +20,20 @@ class MailSender(Mail):
     
     def connect(self):
         try:
-            response = self.refresh_token()
-            auth_str = self.generate_auth_str(response['access_token'], base64_encode=True)
-            
             self.mailbox = smtplib.SMTP(self.config.smtp_server)
-            self.mailbox.set_debuglevel(True)
-            self.mailbox.ehlo(self.config.client_id)
+            #self.mailbox.set_debuglevel(True)
+            self.mailbox.ehlo(self.config.mail_client_id)
             self.mailbox.starttls()
-            self.mailbox.docmd('AUTH', 'XOAUTH2 ' + auth_str)
+            
+            if self.config.mail_auth_method == MailAuthenticationMethod.OAUTH2:
+                response = self.refresh_token()
+                auth_str = self.generate_auth_str(response['access_token'], base64_encode=True)
+            
+                self.mailbox.docmd('AUTH', 'XOAUTH2 ' + auth_str)
+            else:
+                self.mailbox.login(self.config.mail_user, self.config.mail_app_password)
 
+            logging.info('Connected to mailbox.')
         except Exception as error:
             raise MailError('Unable to connect to mailbox: %s' % (', '.join(map(str, error.args))))
         
@@ -48,13 +53,15 @@ class MailSender(Mail):
             try:
                 self.mailbox.close()
                 self.mailbox.quit()
+                
+                logging.info('Disconnected from mailbox.')
             except Exception as error:
                 logging.debug('Unable to close the mailbox: %s' % ', '.join(error.args))
                 pass
             finally:
                 self.mailbox = None
 
-    def decode_message_data(self,search_string):
+    def decode_message_data(self, search_string):
         try: 
             result = ''
             lines = self.reply_to_message.split('\n')
@@ -68,7 +75,7 @@ class MailSender(Mail):
         except Exception as error:
             logging.debug('Unable to decode message data: %s' % ', '.join(error.args))
     
-    def send_mail(self,reply_to_message,message,user_name):
+    def send_mail(self, reply_to_message, message, user_name):
         try:
             self.message = message
             self.reply_to_message = reply_to_message
@@ -84,14 +91,9 @@ class MailSender(Mail):
             logging.debug("self.reply_to_message::: " + self.reply_to_message)
             msg = MIMEMultipart('related')
             msg['Subject'] = emailSubject
-            msg['From'] = self.config.email_user
+            msg['From'] = self.config.mail_user
             msg['To'] = emailTo
             
-            # msg_body = """<br>Reply to:<br><br>"""
-            # msg_body = """<blockquote><i>"""
-            # msg_body += self.reply_to_message_text
-            # msg_body += """</i></blockquote><br>"""
-            # msg_body += """<br>Dear """ + user_name
             msg_body = message
             msg_body += """<br><br>"""
             msg_body += """<em>Telegram response from: <strong>""" + user_name + """</strong></em>"""
@@ -103,7 +105,7 @@ class MailSender(Mail):
             part_html = MIMEText(self.message.encode('utf-8'), 'html', _charset='utf-8')
             msg_alternative.attach(part_text)
             msg_alternative.attach(part_html)
-            self.mailbox.sendmail(self.config.email_user, emailTo, msg.as_string())
+            self.mailbox.sendmail(self.config.mail_user, emailTo, msg.as_string())
         except Exception as error:
             self.disconnect()
             return MailError('Unable to send email: %s' % ', '.join(map(str, error.args)))

@@ -15,13 +15,16 @@ class MailReader(Mail):
     
     def connect(self):
         try:
-            response = self.refresh_token()
-            auth_str = self.generate_auth_str(response['access_token'], base64_encode=False)
-            
             self.mailbox = imaplib.IMAP4_SSL(self.config.imap_server)
             #self.mailbox.debug = 4
             
-            rv, data = self.mailbox.authenticate('XOAUTH2', lambda x: auth_str)
+            if self.config.mail_auth_method == MailAuthenticationMethod.OAUTH2:
+                response = self.refresh_token()
+                auth_str = self.generate_auth_str(response['access_token'], base64_encode=False)
+                rv, data = self.mailbox.authenticate('XOAUTH2', lambda x: auth_str)
+            else:
+                rv, data = self.mailbox.login(self.config.mail_user, self.config.mail_app_password)
+                
             if rv != 'OK':
                 raise MailError('Unable to connect to mailbox: %s' % str(rv))
             
@@ -29,14 +32,12 @@ class MailReader(Mail):
             if rv != 'OK':
                 self.disconnect()
                 raise MailError('Unable to get the list of mail folders: %s' % str(rv))
-            '''else:
-                logging.debug(mailboxes)'''
                 
             rv, data = self.mailbox.select(self.config.imap_folder)
             if rv != 'OK':
                 raise MailError('Unable to open the mailbox: %s' % str(rv))
-            '''else:
-                logging.debug(data)'''
+            
+            logging.info('Connected to mailbox.')
         except Exception as error:
             raise MailError('Unable to connect to mailbox: %s' % error.msg)
         
@@ -56,6 +57,8 @@ class MailReader(Mail):
             try:
                 self.mailbox.close()
                 self.mailbox.logout()
+                
+                logging.info('Disconnected from mailbox.')
             except Exception as error:
                 logging.debug('Unable to close the mailbox: %s' % error.msg)
                 pass

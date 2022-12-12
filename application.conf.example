@@ -1,17 +1,21 @@
-[Mail]
+Mail]
+ImapServer=imap.googlemail.com
+SmtpServer=smtp.gmail.com
+
+User=
+
+# Authentication method is defaulted to OAuth2. Possible values are 'AppPassword' and 'OAuth2'.
+#AuthenticationMethod=
+
+# If authentication method is set to 'AppPassword'.
+#AppPassword=
+
+# If authentication method is set to 'OAuth2'.
 ClientId=
 ClientSecret=
 AuthUri=https://accounts.google.com/o/oauth2/auth
 TokenUri=https://oauth2.googleapis.com/token
-User=
-ImapServer=imap.googlemail.com
-SmtpServer=smtp.gmail.com:587
-
-# Get the authorization code once permission has been granted. No longer needed once have a refresh token.
 AuthorizeCode=
-
-# Get the refresh token once the token has been authorized.
-# Set the publishing status to "production" so that it will not expire.
 RefreshToken=
 
 [Telegram]

@@ -7,22 +7,29 @@ class Config:
     config_parser = None
     
     # Configuration for mail.
-    client_id = None
-    client_secret = None
-    auth_uri = None
-    token_uri = None
-    redirect_uri = 'urn:ietf:wg:oauth:2.0:oob'
-    scope_uri = 'https://mail.google.com/'
-    email_user = None
-    
-    auth_code = None
-    refresh_token = None
-    
     imap_folder = 'INBOX'
     imap_search = None
     
-    imap_server = None
-    smtp_server = None
+    imap_server = 'imap.googlemail.com'
+    smtp_server = 'smtp.gmail.com:587'
+    
+    mail_user = None
+    
+    mail_auth_method = 'OAuth2'
+    
+    # Configuration for mail - oauth2.
+    mail_client_id = None
+    mail_client_secret = None
+    mail_auth_uri = None
+    mail_token_uri = None
+    mail_redirect_uri = 'urn:ietf:wg:oauth:2.0:oob'
+    mail_scope_uri = 'https://mail.google.com/'
+    
+    mail_auth_code = None
+    mail_refresh_token = None
+    
+    # Configuration for mail - application password.
+    mail_app_password = None
 
     # Configuration for Telegram.
     tg_bot_token = None
@@ -44,22 +51,26 @@ class Config:
                 logging.critical('Cannot find the provided configuration file %s.' % args.config)
                 raise Exception
             
-            self.client_id = self.get_config('Mail', 'ClientId', self.client_id)
-            self.client_secret = self.get_config('Mail', 'ClientSecret', self.client_secret)
-            self.auth_uri = self.get_config('Mail', 'AuthUri', self.auth_uri)
-            self.token_uri = self.get_config('Mail', 'TokenUri', self.token_uri)
-            self.redirect_uri = self.get_config('Mail', 'RedirectUri', self.redirect_uri)
-            self.scope_uri = self.get_config('Mail', 'ScopeUri', self.scope_uri)
-            self.email_user = self.get_config('Mail', 'User', self.email_user)
-            
-            self.auth_code = self.get_config('Mail', 'AuthorizeCode', self.auth_code)
-            self.refresh_token = self.get_config('Mail', 'RefreshToken', self.refresh_token)
-            
             self.imap_folder = self.get_config('Mail', 'ImapFolder', self.imap_folder)
             self.imap_search = self.get_config('Mail', 'ImapSearch', self.imap_search)
             
             self.imap_server = self.get_config('Mail', 'ImapServer', self.imap_server)
             self.smtp_server = self.get_config('Mail', 'SmtpServer', self.smtp_server)
+            
+            self.mail_user = self.get_config('Mail', 'User', self.mail_user)
+            
+            self.mail_auth_method = self.get_config('Mail', 'AuthenticationMethod', self.mail_auth_method)
+            if self.mail_auth_method == 'OAuth2':
+                self.mail_client_id = self.get_config('Mail', 'ClientId', self.mail_client_id)
+                self.mail_client_secret = self.get_config('Mail', 'ClientSecret', self.mail_client_secret)
+                self.mail_auth_uri = self.get_config('Mail', 'AuthUri', self.mail_auth_uri)
+                self.mail_token_uri = self.get_config('Mail', 'TokenUri', self.mail_token_uri)
+                self.mail_redirect_uri = self.get_config('Mail', 'RedirectUri', self.mail_redirect_uri)
+                self.mail_scope_uri = self.get_config('Mail', 'ScopeUri', self.mail_scope_uri)
+                self.mail_auth_code = self.get_config('Mail', 'AuthorizeCode', self.mail_auth_code)
+                self.mail_refresh_token = self.get_config('Mail', 'RefreshToken', self.mail_refresh_token)
+            else:
+                self.mail_app_password = self.get_config('Mail', 'AppPassword', self.mail_app_password)
             
             self.tg_bot_token = self.get_config('Telegram', 'BotToken', self.tg_bot_token)
             self.tg_chat_id = self.get_config('Telegram', 'ChatId', self.tg_chat_id, int)

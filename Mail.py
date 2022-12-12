@@ -35,43 +35,43 @@ class Mail:
         
     def generate_permission_url(self):
         params = {}
-        params['client_id'] = self.config.client_id
-        params['redirect_uri'] = self.config.redirect_uri
-        params['scope'] = self.config.scope_uri
+        params['client_id'] = self.config.mail_client_id
+        params['redirect_uri'] = self.config.mail_redirect_uri
+        params['scope'] = self.config.mail_scope_uri
         params['response_type'] = 'code'
         params['prompt'] = 'consent'
         params['access_type'] = 'offline'
         params['include_granted_scopes'] = 'true'
         
-        return '%s?%s' % (self.config.auth_uri, self.format_url_params(params))
+        return '%s?%s' % (self.config.mail_auth_uri, self.format_url_params(params))
     
     def authorize_token(self):
         params = {}
-        params['client_id'] = self.config.client_id
-        params['client_secret'] = self.config.client_secret
-        params['code'] = self.config.auth_code
-        params['redirect_uri'] = self.config.redirect_uri
+        params['client_id'] = self.config.mail_client_id
+        params['client_secret'] = self.config.mail_client_secret
+        params['code'] = self.config.mail_auth_code
+        params['redirect_uri'] = self.config.mail_redirect_uri
         params['grant_type'] = 'authorization_code'
         params['access_type'] = 'offline'
         params['include_granted_scopes'] = 'true'
         
-        response = urlopen(self.config.token_uri, urlencode(params).encode()).read()
+        response = urlopen(self.config.mail_token_uri, urlencode(params).encode()).read()
         return json.loads(response.decode())
     
     def refresh_token(self):
         params = {}
-        params['client_id'] = self.config.client_id
-        params['client_secret'] = self.config.client_secret
-        params['refresh_token'] = self.config.refresh_token
+        params['client_id'] = self.config.mail_client_id
+        params['client_secret'] = self.config.mail_client_secret
+        params['refresh_token'] = self.config.mail_refresh_token
         params['grant_type'] = 'refresh_token'
         params['access_type'] = 'offline'
         params['include_granted_scopes'] = 'true'
         
-        response = urlopen(self.config.token_uri, urlencode(params).encode()).read()
+        response = urlopen(self.config.mail_token_uri, urlencode(params).encode()).read()
         return json.loads(response.decode())
   
     def generate_auth_str(self, access_token, base64_encode=True):
-        auth_str = 'user=%s\1auth=Bearer %s\1\1' % (self.config.email_user, access_token)
+        auth_str = 'user=%s\1auth=Bearer %s\1\1' % (self.config.mail_user, access_token)
         if base64_encode:
             auth_str = base64.b64encode(auth_str.encode()).decode()
         
@@ -81,6 +81,10 @@ class MailError(Exception):
     def __init__(self, message, errors=None):
         super().__init__(message)
         self.errors = errors
+
+class MailAuthenticationMethod(Enum):
+    APP_PASSWORD = 'AppPassword'
+    OAUTH2 = 'OAuth2'
 
 class MailDataType(Enum):
     TEXT = 1
