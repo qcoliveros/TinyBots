@@ -122,23 +122,35 @@ python3 OAuth2.py -c application.conf [--generate_permission_url/--generate_refr
 
 ## Setup the EC2 Instance
 1.	Create a new EC2 instance with the following specifications:
+
     Name: TinyBots
+    
     Application and OS Images:  Ubuntu Server 22.04 LTS (HVM), SSD Volume Type
+    
     Instance Type: t2.micro
+    
     Key pair name: vockey
+    
     Network settings: Allow SSH traffic from > Anywhere 0.0.0.0/0
     
 2.	Launch the EC2 instance
 
 3.	Create an Elastic IP
+    
     a.	Go to Network and Security > Elastic Ips
+    
     b.	Click Allocate Elastic IP address
+    
     c.	Click the Elastic IP that you have created
+    
     d.	Click Associate Elastic IP Address
+    
     e.	Select the TinyBots instance
     
 4.	Open PuTTY
+    
     a.	Session > Host Name (Elastic IP)
+    
     b.	SSH > Auth (PEM / PPK file)
 
 5.	Login as: ubuntu
@@ -152,10 +164,15 @@ sudo apt install python3
 ```
 
    b.	Install the needed modules:
+
 argparse
+
 configparser
+
 imaplib2
+
 lxml
+
 pyTelegramBotAPI
 
 ```
@@ -163,6 +180,7 @@ pip install <module>
 ```
    
    c.	Clone the repository
+
 ```
 git clone https://github.com/mcoliveros/TinyBots.git TinyBots
 ```
@@ -170,13 +188,16 @@ git clone https://github.com/mcoliveros/TinyBots.git TinyBots
    d.	Enter your github email address/username
    
    e.	Enter your Personal Access Token
-         > To generate token > Go to github > Settings > Developer Settings > Tokens (Classic) > Generate New Token
+ 
+   > To generate token > Go to github > Settings > Developer Settings > Tokens (Classic) > Generate New Token
    
    f.	Access directory
 ```
 cd TinyBots
 ```
+   
    g.	Update application.config
+
 ```
 sudo nano application.conf
 ```
