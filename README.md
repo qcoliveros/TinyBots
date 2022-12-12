@@ -28,8 +28,8 @@ cd TinyBots
 ```
 cp application.conf.example application.conf
 ```
-* Refer to *[Setup OAuth2 Authentication for Gmail account](#setup-oauth2-authentication-for-gmail-account)* for the information needed to provide under *Mail* section.
 * Refer to *[Setup Telegram Bot](#setup-the-telegram-bot)* for the information needed to provide under *Telegram* section.
+* The authentication method is set to OAuth2 by default. Refer to *[Setup OAuth2 Authentication for Gmail account](#setup-oauth2-authentication-for-gmail-account)* for the information needed to provide under *Mail* - *OAuth2* section. However, the authentication method can be changed to app password by setting "AuthenticationMethod" to "AppPassword". Refer to *[Setup App Password in Gmail account](#setup-app-password-in-gmail-account)* for the information needed to provide under *Mail* - *AppPassword* section.
 
 
 ## Execute the Forwarder
@@ -45,6 +45,41 @@ python3 MailToTelegramForwarder.py -c application.conf
 python3 TelegramToMailForwarder.py -c application.conf 
 ```
 
+## Setup the Telegram Bot
+1. Start a new conversation with the BotFather.
+2. Send the following message to create a new Telegram bot:
+
+```
+/newbot
+```
+3. Enter the name for the bot.
+4. Give the Telegram bot a unique username.
+5. Update the *BotToken* in application.conf based on the obtained Telegram bot's access token.
+6. Send the following message to disable the privacy mode:
+
+```
+/setprivacy
+```
+7. Specify the bot's username created in step 4.
+8. Select disable for the bot to receive all messages sent to the group.
+9. Add the Telegram bot to the chat group.
+10. Get the list of updates for your Telegram bot:
+
+```
+https://api.telegram.org/bot<YourBOTToken>/getUpdates
+```
+11. Look for the "chat" object of the group to get the chat id.
+12. Update the *ChatId* in application.conf based on the obtained chat id.
+
+
+## Setup App Password in Gmail account
+1. Sign in to Google account.
+2. Under *Signing in to Google*, select *App Passwords*.
+3. Choose *Select app*. 
+4. Choose *Other (Custom name)* 
+5. Provide the application name.
+6. Click *Generate*.
+7. Update the *AppPassword* in application.conf based on the obtained password.
 
 ## Setup OAuth2 Authentication for Gmail account
 1. Sign in to **Google Cloud console** and create a *New Project* or continue with an existing project.
@@ -83,31 +118,3 @@ python3 OAuth2.py -c application.conf [--generate_permission_url/--generate_refr
     1. Click *OAuth consent screen*.
     2. Click *Publish App*.
     3. Click *Confirm* to push to production.
-
-
-## Setup the Telegram Bot
-1. Start a new conversation with the BotFather.
-2. Send the following message to create a new Telegram bot:
-
-```
-/newbot
-```
-3. Enter the name for the bot.
-4. Give the Telegram bot a unique username.
-5. Update the *BotToken* in application.conf based on the obtained Telegram bot's access token.
-6. Send the following message to disable the privacy mode:
-
-```
-/setprivacy
-```
-7. Specify the bot's username created in step 4.
-8. Select disable for the bot to receive all messages sent to the group.
-9. Add the Telegram bot to the chat group.
-10. Get the list of updates for your Telegram bot:
-
-```
-https://api.telegram.org/bot<YourBOTToken>/getUpdates
-```
-11. Look for the "chat" object of the group to get the chat id.
-12. Update the *ChatId* in application.conf based on the obtained chat id.
-
