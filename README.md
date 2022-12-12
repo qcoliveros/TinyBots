@@ -75,6 +75,7 @@ https://api.telegram.org/bot<YourBOTToken>/getUpdates
 ## Setup App Password in Gmail account
 1. Sign in to Google account.
 2. Under *Signing in to Google*, select *App Passwords*.
+(Note: If the App Password option is not showing, it might be because: a) 2-Step Verification is not set up for the Google account; b) 2-Step Verification is only set up for security keys; c) the Google account is associated with work, school, or other organization; d) Advanced Protection is turned on. Modify the existing setup accordingly and then complete Step 2 onwards.)
 3. Choose *Select app*. 
 4. Choose *Other (Custom name)* 
 5. Provide the application name.
