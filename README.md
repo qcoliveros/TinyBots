@@ -143,7 +143,7 @@ python3 OAuth2.py -c application.conf [--generate_permission_url/--generate_refr
 ```
 sudo apt install python3
 ```
-b.	Install the needed modules:
+   b.	Install the needed modules:
 argparse
 configparser
 imaplib2
@@ -152,18 +152,18 @@ pyTelegramBotAPI
 ```
 pip install <module>
 ```
-c.	Clone the repository
+   c.	Clone the repository
 ```
 git clone https://github.com/mcoliveros/TinyBots.git TinyBots
 ```
-d.	Enter your github email address/username
-e.	Enter your Personal Access Token
+   d.	Enter your github email address/username
+   e.	Enter your Personal Access Token
    > To generate token > Go to github > Settings > Developer Settings > Tokens (Classic) > Generate New Token
-f.	Access directory
+   f.	Access directory
 ```
 cd TinyBots
 ```
-g.	Update application.config
+   g.	Update application.config
 ```
 sudo nano application.conf
 ```
