@@ -247,6 +247,3 @@ cd TinyBots
 sudo nano application.conf
 ```
 
-
-
-
