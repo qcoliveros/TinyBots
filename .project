@@ -2,8 +2,7 @@
 <projectDescription>
 	<name>TinyBots</name>
 	<comment></comment>
-	<projects>
-	</projects>
+	<projects></projects>
 	<buildSpec>
 		<buildCommand>
 			<name>org.python.pydev.PyDevBuilder</name>
@@ -15,3 +14,5 @@
 		<nature>org.python.pydev.pythonNature</nature>
 	</natures>
 </projectDescription>
+
+
