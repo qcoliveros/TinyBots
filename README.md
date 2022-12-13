@@ -201,3 +201,35 @@ cd TinyBots
 ```
 sudo nano application.conf
 ```
+## Setup the EC2 Instance in AWS LMS
+1. Go to AWS Learners Lab: https://www.awsacademy.com/LMS_Login
+
+2. Click on "Student Login" and enter your student email address and password to login.
+
+3. On your dashboard, click on the "AWS Academy Learner Lab" icon.
+
+4. On the left just beside the side panel, click on "Modules". This will lead you to the Learner lab options.
+
+5. Click on "Learner Lab". This will open the leaner lab terminal console.
+
+6. In order for you to be able to access the AWS console, click on "Start Lab" from the upper right options in the screen.
+
+7. Wait for the AWS button to turn green and click the same "AWS" letters to get directed to the AWS Management console.
+
+8. In the AWS console page. Navigate to EC2.
+
+9. Click "Launch Instance".
+
+10. In the "Launch Instance" page. Fill in the following information:
+   Name and Tag - Name of your instance.
+   Select Application and OS Images.
+   Instance Type - 
+   Key pair - vockey
+   Network Settings - Security Groups - Allow the following:
+   Configure Storage - 
+   
+11. Click on "Launch Instance".
+
+12. Once you are done with your lab, go back to the AWS Learner's Lab and click "End Lab".
+
+13. You can also terminate the instance from AWS management console, if you are done with your project and want to delete it.
