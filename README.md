@@ -2,6 +2,7 @@
 A Telegram chatbot that can send and receive email messages using a Gmail account.
 
 ## Deploy EC2 Instance
+```
 0. Go to AWS Console
    Click on "Services" then select "EC2"
    Select "Instances(running)" then click on "Launch instance"
@@ -15,8 +16,10 @@ A Telegram chatbot that can send and receive email messages using a Gmail accoun
    Configure storage: 1x: 25 GiB: gp2
    Click on "Launch instance"
    Wait for the prompt that it was launched successfully
+ ```
  
  ## Connecting to Putty
+ ```
  0.1 Install Putty (you can choose from these versions)
       * putty-64bit-0.77-installer
       * putty-64bit-0.78-installer
@@ -27,8 +30,8 @@ A Telegram chatbot that can send and receive email messages using a Gmail accoun
      Click the + sign then select "Auth"
      Browse the ppk key that was generated then type your username
      Once started you can start the installation of Python 3
-
 ```
+
 ## Installation
 1. Install Python 3.
 
