@@ -120,8 +120,25 @@ python3 OAuth2.py -c application.conf [--generate_permission_url/--generate_refr
     2. Click *Publish App*.
     3. Click *Confirm* to push to production.
 
-## Setup the EC2 Instance
-1.	Create a new EC2 instance with the following specifications:
+## Setup the EC2 Instance in AWS LMS
+
+1. Go to AWS Learners Lab: https://www.awsacademy.com/LMS_Login
+
+2. Click on "Student Login" and enter your student email address and password to login.
+
+3. On your dashboard, click on the "AWS Academy Learner Lab" icon.
+
+4. On the left just beside the side panel, click on "Modules". This will lead you to the Learner lab options.
+
+5. Click on "Learner Lab". This will open the leaner lab terminal console.
+
+6. In order for you to be able to access the AWS console, click on "Start Lab" from the upper right options in the screen.
+
+7. Wait for the AWS button to turn green and click the same "AWS" letters to get directed to the AWS Management console.
+
+8. In the AWS console page. Navigate to EC2.
+
+9.	Create a new EC2 instance with the following specifications:
 
     Name: TinyBots
     
@@ -133,9 +150,9 @@ python3 OAuth2.py -c application.conf [--generate_permission_url/--generate_refr
     
     Network settings: Allow SSH traffic from > Anywhere 0.0.0.0/0
     
-2.	Launch the EC2 instance
+10.	Launch the EC2 instance
 
-3.	Create an Elastic IP
+11.	Create an Elastic IP
     
     a.	Go to Network and Security > Elastic Ips
     
@@ -147,15 +164,15 @@ python3 OAuth2.py -c application.conf [--generate_permission_url/--generate_refr
     
     e.	Select the TinyBots instance
     
-4.	Open PuTTY
+12.	Open PuTTY
     
     a.	Session > Host Name (Elastic IP)
     
     b.	SSH > Auth (PEM / PPK file)
 
-5.	Login as: ubuntu
+13.	Login as: ubuntu
 
-6.	In the terminal
+14.	In the terminal
     
     a. Install Python 3
 
@@ -201,35 +218,5 @@ cd TinyBots
 ```
 sudo nano application.conf
 ```
-## Setup the EC2 Instance in AWS LMS
-1. Go to AWS Learners Lab: https://www.awsacademy.com/LMS_Login
 
-2. Click on "Student Login" and enter your student email address and password to login.
 
-3. On your dashboard, click on the "AWS Academy Learner Lab" icon.
-
-4. On the left just beside the side panel, click on "Modules". This will lead you to the Learner lab options.
-
-5. Click on "Learner Lab". This will open the leaner lab terminal console.
-
-6. In order for you to be able to access the AWS console, click on "Start Lab" from the upper right options in the screen.
-
-7. Wait for the AWS button to turn green and click the same "AWS" letters to get directed to the AWS Management console.
-
-8. In the AWS console page. Navigate to EC2.
-
-9. Click "Launch Instance".
-
-10. In the "Launch Instance" page. Fill in the following information:
-   Name and Tag - Name of your instance.
-   Select Application and OS Images.
-   Instance Type - 
-   Key pair - vockey
-   Network Settings - Security Groups - Allow the following:
-   Configure Storage - 
-   
-11. Click on "Launch Instance".
-
-12. Once you are done with your lab, go back to the AWS Learner's Lab and click "End Lab".
-
-13. You can also terminate the instance from AWS management console, if you are done with your project and want to delete it.
