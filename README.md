@@ -1,6 +1,34 @@
 # About TinyBots
 A Telegram chatbot that can send and receive email messages using a Gmail account.
 
+## Deploy EC2 Instance
+0. Go to AWS Console
+   Click on "Services" then select "EC2"
+   Select "Instances(running)" then click on "Launch instance"
+   Put your desired Name: ___________
+   For Application and OS Image look for Ubuntu
+      * You may select Ubuntu Server 22.04 LTS or Ubuntu Server 20.04 LTS
+   Instance type: t2.micro
+   Key pair(login): click on "create new key pair"
+      * key pair type: RSA
+      * private key file format: .ppk (for putty)
+   Configure storage: 1x: 25 GiB: gp2
+   Click on "Launch instance"
+   Wait for the prompt that it was launched successfully
+ 
+ ## Connecting to Putty
+ 0.1 Install Putty (you can choose from these versions)
+      * putty-64bit-0.77-installer
+      * putty-64bit-0.78-installer
+     Open Putty
+     Input your Host Name/IP Address
+     (e.g. ec2-35-88-219-12.us-west-2.compute.amazonaws.com)
+     Under category > Connection > SSH
+     Click the + sign then select "Auth"
+     Browse the ppk key that was generated then type your username
+     Once started you can start the installation of Python 3
+
+```
 ## Installation
 1. Install Python 3.
 
