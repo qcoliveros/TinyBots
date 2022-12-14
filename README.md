@@ -76,7 +76,7 @@ python3 TelegramToMailForwarder.py -c application.conf
     8. Click *Associate*.
     9. Click *Actions* > *Update reverse DNS*.
     10. Provide the following:
-        - *Reverse DNS domain name:* [Provide the domain name]
+        - *Reverse DNS domain name:* [Provide the domain name]<br/>
             Note: Make sure to add DNS A record first based on Elastic IP address.
         - *To confirm update, type update in the field:* update
     11. Click *Update*.
