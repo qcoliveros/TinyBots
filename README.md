@@ -144,15 +144,31 @@ cp application.conf.example application.conf
 * Refer to *[Setup Telegram Bot](#setup-the-telegram-bot)* for the information needed to provide under *Telegram* section.
 * The authentication method is set to OAuth2 by default. Refer to *[Setup OAuth2 Authentication for Gmail account](#setup-oauth2-authentication-for-gmail-account)* for the information needed to provide under *Mail* - *OAuth2* section. However, the authentication method can be changed to app password by setting "AuthenticationMethod" to "AppPassword". Refer to *[Setup App Password in Gmail account](#setup-app-password-in-gmail-account)* for the information needed to provide under *Mail* - *AppPassword* section.
 
-23. Run the Gmail to Telegram forwarder.
+23. Create a shell script file.
     
 ```
-python3 MailToTelegramForwarder.py -c application.conf &
+cd ..
+mkdir scripts
+nano TinyBots.sh
 ```
-6. Run the Telegram to Gmail forwarder.
+Provide the following:
 
 ```
+cd /environments/tinybots-env/source/TinyBots
+source /environments/tinybots-env/bin/activate
+python3 MailToTelegramForwarder.py -c application.conf &
 python3 TelegramToMailForwarder.py -c application.conf &
+```
+
+24. Edit the crontab.
+
+```
+crontab -e
+```
+Provide the following:
+
+```
+@reboot /environments/tinybots-env/scripts/TinyBots.sh
 ```
 
 
