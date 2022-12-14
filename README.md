@@ -1,49 +1,18 @@
 # About TinyBots
 A Telegram chatbot that can send and receive email messages using a Gmail account.
 
-## Deploy EC2 Instance
-```
-0. Go to AWS Console
-   - Click on "Services" then select "EC2"
-   - Select "Instances(running)" then click on "Launch instance"
-   - Put your desired Name: ___________
-   - For Application and OS Image look for Ubuntu
-      * You may select Ubuntu Server 22.04 LTS or Ubuntu Server 20.04 LTS
-   - Instance type: t2.micro
-   - Key pair(login): click on "create new key pair"
-      * key pair type: RSA
-      * private key file format: .ppk (for putty)
-   - Configure storage: 1x: 25 GiB: gp2
-   - Click on "Launch instance"
-   - Wait for the prompt that it was launched successfully
- ```
- 
- ## Connecting to Putty
- ```
- 0.1 Install Putty (you can choose from these versions)
-      * putty-64bit-0.77-installer
-      * putty-64bit-0.78-installer
-     - Open Putty
-     - Input your Host Name/IP Address
-     (e.g. ec2-35-88-219-12.us-west-2.compute.amazonaws.com)
-     - Under category > Connection > SSH
-     - Click the + sign then select "Auth"
-     - Browse the ppk key that was generated then type your username
-     - Once started you can start the installation of Python 3
-```
-
-## Installation
+## Setup in Local Workspace
 1. Install Python 3.
 
 ```
 sudo apt install python3
 ```
 2. Install the following Python modules:
-    * argparse
-    * configparser
-    * imaplib2
-    * lxml
-    * pyTelegramBotAPI
+    - argparse
+    - configparser
+    - imaplib2
+    - lxml
+    - pyTelegramBotAPI
 
  ```
  pip install <module>
@@ -55,21 +24,21 @@ git clone https://github.com/mcoliveros/TinyBots.git TinyBots
 cd TinyBots
 ```
 4. Setup the configuration file.
+    1. Create the application.conf file by copying from application.conf.example.
+    2. Update the content of application.conf file.
+        - Refer to *[Setup Telegram Bot](#setup-the-telegram-bot)* for the information needed to provide under *Telegram* section.
+        - The authentication method is set to OAuth2 by default. Refer to *[Setup OAuth2 Authentication for Gmail account](#setup-oauth2-authentication-for-gmail-account)* for the information needed to provide under *Mail* - *OAuth2* section. However, the authentication method can be changed to app password by setting "AuthenticationMethod" to "AppPassword". Refer to *[Setup App Password in Gmail account](#setup-app-password-in-gmail-account)* for the information needed to provide under *Mail* - *AppPassword* section.
 
 ```
 cp application.conf.example application.conf
 ```
-* Refer to *[Setup Telegram Bot](#setup-the-telegram-bot)* for the information needed to provide under *Telegram* section.
-* The authentication method is set to OAuth2 by default. Refer to *[Setup OAuth2 Authentication for Gmail account](#setup-oauth2-authentication-for-gmail-account)* for the information needed to provide under *Mail* - *OAuth2* section. However, the authentication method can be changed to app password by setting "AuthenticationMethod" to "AppPassword". Refer to *[Setup App Password in Gmail account](#setup-app-password-in-gmail-account)* for the information needed to provide under *Mail* - *AppPassword* section.
-
 
 ## Execute the Forwarder
 1. To run the Gmail to Telegram forwarder:
-
+    
 ```
 python3 MailToTelegramForwarder.py -c application.conf 
 ```
-
 2. To run the Telegram to Gmail forwarder:
 
 ```
@@ -105,8 +74,12 @@ https://api.telegram.org/bot<YourBOTToken>/getUpdates
 
 ## Setup App Password in Gmail account
 1. Sign in to Google account.
-2. Under *Signing in to Google*, select *App Passwords*.
-(Note: If the App Password option is not showing, it might be because: a) 2-Step Verification is not set up for the Google account; b) 2-Step Verification is only set up for security keys; c) the Google account is associated with work, school, or other organization; d) Advanced Protection is turned on. Modify the existing setup accordingly and then complete Step 2 onwards.)
+2. Under *Signing in to Google*, select *App Passwords*.<br/>
+    Note: If the App Password option is not showing, it might be because:<br/>
+    (a) 2-Step Verification is not set up for the Google account;<br/>
+    (b) 2-Step Verification is only set up for security keys;<br/>
+    (c) the Google account is associated with work, school, or other organization;<br/>
+    (d) Advanced Protection is turned on. Modify the existing setup accordingly and then complete Step 2 onwards.<br/>
 3. Choose *Select app*. 
 4. Choose *Other (Custom name)* 
 5. Provide the application name.
