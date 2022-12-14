@@ -69,11 +69,17 @@ python3 TelegramToMailForwarder.py -c application.conf
     3. Click *Add new tag*.
     4. Provide the following:
         - *Key:* Name
-        - *Value:* IS238-Project-Elastic-IP
+        - *Value:* IS238-Project-TinyBots-Elastic-IP
     5. Click *Allocate*.
     6. Click *Actions* > *Associate Elastic IP address*.
     7. Select the *IS238-Project-TinyBots* instance.
     8. Click *Associate*.
+    9. Click *Actions* > *Update reverse DNS*.
+    10. Provide the following:
+        - *Reverse DNS domain name:* [Provide the domain name]
+            Note: Make sure to add DNS A record first based on Elastic IP address.
+        - *To confirm update, type update in the field:* update
+    11. Click *Update*.
 11. Click *EC2 Dashboard*, then view *IS238-Project-TinyBots* instance details. Take note of its *Public IPv4 DNS*.
 12. Go back to *Learner Lab*, then click *AWS Details*.
 13. Download the SSH key.
@@ -93,7 +99,7 @@ ssh -i "vockey.pem" [Public IPv4 DNS]
 ```
 sudo apt update && upgrade
 ```
-18. Install pip, and venv.
+18. Install pip and venv.
 
 ```
 sudo apt install python3-pip
