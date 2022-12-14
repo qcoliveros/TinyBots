@@ -43,6 +43,39 @@ python3 MailToTelegramForwarder.py -c application.conf
 python3 TelegramToMailForwarder.py -c application.conf 
 ```
 
+## Setup in AWS LMS
+1. Sign in to *[AWS Learners Lab](https://www.awsacademy.com/LMS_Login)*.
+2. On the *Dashboard*, click on the *AWS Academy Learner Lab*.
+3. Click on the *Modules*.
+4. Click on the *Learner Lab*. This will launch the leaner laboratory terminal console.
+5. Click on *Start Lab* to access the AWS console.
+6. Wait for the *AWS* button to turn green, then click the same *AWS* letters to get directed to the *AWS Management Console*.
+7. Navigate to *EC2* page.
+8. Create a new EC2 instance with the following specifications:
+    - *Name:* IS238-Project-TinyBots
+    - *Application and OS Images:* Ubuntu Server 22.04 LTS (HVM), SSD Volume Type
+    - *Instance type:* t2.micro
+    - *Key pair name:* vockey
+    - *Security group name:* IS238-Project-TinyBots-Security-Group
+    - *Security group rule 1:* Allow SSH traffic from My IP
+    - *Security group rule 2:* Allow Custom TCP 993 from Anywhere 0.0.0.0/0
+    - *Security group rule 3:* Allow Custom TCP 587 from Anywhere 0.0.0.0/0
+    - *Security group rule 4:* Allow HTTPS from Anywhere 0.0.0.0/0
+9. Click *Launch instance*.
+10. Create an Elastic IP.
+    1. Go to *Network & Security* > *Elastic IPs*.
+    2. Click *Allocate Elastic IP address*.
+    3. Click *Add new tag*.
+    4. Provide the following:
+        - *Key:* Name
+        - *Value:* IS238-Project-Elastic-IP
+    5. Click *Allocate*.
+    6. Click *Actions* > *Associate Elastic IP address*.
+    7. Select the *IS238-Project-TinyBots* instance.
+    8. Click *Associate*.
+11. [TODO]
+
+
 ## Setup the Telegram Bot
 1. Start a new conversation with the BotFather.
 2. Send the following message to create a new Telegram bot:
@@ -92,9 +125,9 @@ https://api.telegram.org/bot<YourBOTToken>/getUpdates
     1. Click *OAuth consent screen*.
     2. On the *OAuth consent screen*, click *Create*.
     3. Provide the following information:
-        * App name
-        * User support email: *[Provide the same email address]*
-        * Email addresses: *[Provide the same email address]*
+        - *App name*
+        - *User support email:* [Provide the same email address]
+        - *Email addresses:* [Provide the same email address]
     4. Click *Save and Continue*.
     5. On the *Scopes*, click *Save and Continue* again.
     6. On the *Test users*, click *Add Users*.
@@ -104,8 +137,8 @@ https://api.telegram.org/bot<YourBOTToken>/getUpdates
     1. Click *Credentials*.
     2. Click *Create Credentials* then click *OAuth client ID*.
     3. Provide the following information:
-        * Application type: Desktop app
-        * Name
+        - *Application type:* Desktop app
+        - *Name*
     4. Click *Create*.
     5. Download the OAuth client JSON file.
 5. Based on the OAuth client information, generate the refresh token using the *OAuth2.py* tool.
