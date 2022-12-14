@@ -2,10 +2,11 @@
 A Telegram chatbot that can send and receive email messages using a Gmail account.
 
 ## Setup in Local Workspace
-1. Install Python 3.
+1. Install Python 3 and pip.
 
 ```
 sudo apt install python3
+sudo apt install python3-pip
 ```
 2. Install the following Python modules:
     - argparse
@@ -15,7 +16,7 @@ sudo apt install python3
     - pyTelegramBotAPI
 
  ```
- pip install <module>
+ sudo pip install <module>
  ```
 3. Clone the repository locally.
 
@@ -45,10 +46,10 @@ python3 TelegramToMailForwarder.py -c application.conf
 
 ## Setup in AWS LMS
 1. Sign in to *[AWS Learners Lab](https://www.awsacademy.com/LMS_Login)*.
-2. On the *Dashboard*, click on the *AWS Academy Learner Lab*.
-3. Click on the *Modules*.
-4. Click on the *Learner Lab*. This will launch the leaner laboratory terminal console.
-5. Click on *Start Lab* to access the AWS console.
+2. On the *Dashboard*, click *AWS Academy Learner Lab*.
+3. Click *Modules*.
+4. Click *Learner Lab*. This will launch the leaner laboratory terminal console.
+5. Click *Start Lab* to access the AWS console.
 6. Wait for the *AWS* button to turn green, then click the same *AWS* letters to get directed to the *AWS Management Console*.
 7. Navigate to *EC2* page.
 8. Create a new EC2 instance with the following specifications:
@@ -73,7 +74,80 @@ python3 TelegramToMailForwarder.py -c application.conf
     6. Click *Actions* > *Associate Elastic IP address*.
     7. Select the *IS238-Project-TinyBots* instance.
     8. Click *Associate*.
-11. [TODO]
+11. Click *EC2 Dashboard*, then view *IS238-Project-TinyBots* instance details. Take note of its *Public IPv4 DNS*.
+12. Go back to *Learner Lab*, then click *AWS Details*.
+13. Download the SSH key.
+14. Open a terminal and go to the SSH key location.
+15. Execute the following to ensure that the SSH key is publicly viewable.
+
+```
+chmod 400 vockey.pem
+```
+16. Connect to *IS238-Project-TinyBots* instance via SSH using its *Public IPv4 DNS* from step 11.
+
+```
+ssh -i "vockey.pem" [Public IPv4 DNS]
+```
+17. Update the system package list.
+
+```
+sudo apt update && upgrade
+```
+18. Install pip, and venv.
+
+```
+sudo apt install python3-pip
+sudo apt install python3-venv
+```
+19. Setup virtual environment.
+    1. Create a folder for Python environments.
+    2. Go to the created folder.
+    3. Create an environment.
+    4. Activate the environment to use it.
+
+```
+cd /
+sudo mkdir environments
+cd environments
+sudo python3 -m venv tinybots-env
+source tinybots-env/bin/activate
+```
+20. Install the following Python modules:
+    - argparse
+    - configparser
+    - imaplib2
+    - lxml
+    - pyTelegramBotAPI
+
+ ```
+ pip install <module>
+ ```
+21. Clone the repository.
+
+```
+cd tinybots-env
+mkdir source
+git clone https://github.com/mcoliveros/TinyBots.git TinyBots
+cd TinyBots
+```
+22. Create the configuration file.
+
+```
+cp application.conf.example application.conf
+```
+* Refer to *[Setup Telegram Bot](#setup-the-telegram-bot)* for the information needed to provide under *Telegram* section.
+* The authentication method is set to OAuth2 by default. Refer to *[Setup OAuth2 Authentication for Gmail account](#setup-oauth2-authentication-for-gmail-account)* for the information needed to provide under *Mail* - *OAuth2* section. However, the authentication method can be changed to app password by setting "AuthenticationMethod" to "AppPassword". Refer to *[Setup App Password in Gmail account](#setup-app-password-in-gmail-account)* for the information needed to provide under *Mail* - *AppPassword* section.
+
+23. Run the Gmail to Telegram forwarder.
+    
+```
+python3 MailToTelegramForwarder.py -c application.conf &
+```
+6. Run the Telegram to Gmail forwarder.
+
+```
+python3 TelegramToMailForwarder.py -c application.conf &
+```
 
 
 ## Setup the Telegram Bot
