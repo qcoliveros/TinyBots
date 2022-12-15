@@ -20,10 +20,13 @@ class MailSender(Mail):
     
     def connect(self):
         try:
-            self.mailbox = smtplib.SMTP(self.config.smtp_server)
-            #self.mailbox.set_debuglevel(True)
-            self.mailbox.ehlo(self.config.mail_client_id)
-            self.mailbox.starttls()
+            if self.config.mail_use_implicit_ssl:
+                logging.debug('Use implicit SSL/TLS for SMTP.')
+                self.mailbox = smtplib.SMTP_SSL(self.config.smtp_server)
+            else:
+                logging.debug('Use STARTTLS for SMTP.')
+                self.mailbox = smtplib.SMTP(self.config.smtp_server)
+                self.mailbox.starttls()
             
             if self.config.mail_auth_method == MailAuthenticationMethod.OAUTH2:
                 response = self.refresh_token()

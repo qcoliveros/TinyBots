@@ -10,8 +10,10 @@ class Config:
     imap_folder = 'INBOX'
     imap_search = None
     
-    imap_server = 'imap.googlemail.com'
-    smtp_server = 'smtp.gmail.com:587'
+    imap_server = 'imap.gmail.com'
+    smtp_server = 'smtp.gmail.com'
+    
+    mail_use_implicit_ssl = False
     
     mail_user = None
     
@@ -56,6 +58,8 @@ class Config:
             
             self.imap_server = self.get_config('Mail', 'ImapServer', self.imap_server)
             self.smtp_server = self.get_config('Mail', 'SmtpServer', self.smtp_server)
+            
+            self.mail_use_implicit_ssl = self.get_config('Mail', 'UseImplicitSSL', self.mail_use_implicit_ssl)
             
             self.mail_user = self.get_config('Mail', 'User', self.mail_user)
             

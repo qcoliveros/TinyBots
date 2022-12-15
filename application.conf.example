@@ -1,5 +1,5 @@
 Mail]
-ImapServer=imap.googlemail.com
+ImapServer=imap.gmail.com
 SmtpServer=smtp.gmail.com
 
 User=
@@ -24,5 +24,3 @@ ChatId=
 
 [Database]
 File=tinybots.db
-
-
