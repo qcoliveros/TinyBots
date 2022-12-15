@@ -64,7 +64,7 @@ python3 TelegramToMailForwarder.py -c application.conf
     - *Security group rule 3:* Allow Custom TCP 465 from Anywhere 0.0.0.0/0<br/>
        Note: For SMTP using implicit SSL/TLS.
     - *Security group rule 4:* Allow Custom TCP 587 from Anywhere 0.0.0.0/0<br/>
-       Note: For SMTP using StartTLS.
+       Note: For SMTP using explicit SSL/TLS.
     - *Security group rule 5:* Allow HTTPS from Anywhere 0.0.0.0/0<br/>
        Note: For Telegram.
 9. Click *Launch instance*.
