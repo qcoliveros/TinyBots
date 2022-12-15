@@ -138,6 +138,7 @@ source tinybots-env/bin/activate
 ```
 cd tinybots-env
 mkdir source
+cd source
 git clone https://github.com/mcoliveros/TinyBots.git TinyBots
 cd TinyBots
 ```
@@ -154,6 +155,7 @@ cp application.conf.example application.conf
 ```
 cd ..
 mkdir scripts
+cd scripts
 nano TinyBots.sh
 ```
 Provide the following:
