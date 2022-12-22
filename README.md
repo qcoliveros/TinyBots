@@ -45,7 +45,7 @@ python3 TelegramToMailForwarder.py -c application.conf
 ```
 
 ## Setup in AWS LMS
-1. Sign in to *[AWS Learners Lab](https://www.awsacademy.com/LMS_Login)*.
+1. Sign in to *[AWS Learners Lab](https://www.awsacademy.com/vforcesite/LMS_Login)*.
 2. On the *Dashboard*, click *AWS Academy Learner Lab*.
 3. Click *Modules*.
 4. Click *Learner Lab*. This will launch the leaner laboratory terminal console.
