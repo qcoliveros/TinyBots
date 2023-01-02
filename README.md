@@ -104,13 +104,19 @@ ssh -i "vockey.pem" [Public IPv4 DNS]
 ```
 sudo apt update && upgrade
 ```
-18. Install pip and venv.
+18. Go to the root directory
+
+```
+sudo su
+```
+
+19. Install pip and venv.
 
 ```
 sudo apt install python3-pip
 sudo apt install python3-venv
 ```
-19. Setup virtual environment.
+20. Setup virtual environment.
     1. Create a folder for Python environments.
     2. Go to the created folder.
     3. Create an environment.
@@ -123,7 +129,7 @@ cd environments
 sudo python3 -m venv tinybots-env
 source tinybots-env/bin/activate
 ```
-20. Install the following Python modules:
+21. Install the following Python modules:
     - argparse
     - configparser
     - imaplib2
@@ -133,7 +139,7 @@ source tinybots-env/bin/activate
  ```
  pip install <module>
  ```
-21. Clone the repository.
+22. Clone the repository.
 
 ```
 cd tinybots-env
@@ -142,7 +148,7 @@ cd source
 git clone https://github.com/mcoliveros/TinyBots.git TinyBots
 cd TinyBots
 ```
-22. Create the configuration file.
+23. Create the configuration file.
 
 ```
 cp application.conf.example application.conf
@@ -150,7 +156,7 @@ cp application.conf.example application.conf
 * Refer to *[Setup Telegram Bot](#setup-the-telegram-bot)* for the information needed to provide under *Telegram* section.
 * The authentication method is set to OAuth2 by default. Refer to *[Setup OAuth2 Authentication for Gmail account](#setup-oauth2-authentication-for-gmail-account)* for the information needed to provide under *Mail* - *OAuth2* section. However, the authentication method can be changed to app password by setting "AuthenticationMethod" to "AppPassword". Refer to *[Setup App Password in Gmail account](#setup-app-password-in-gmail-account)* for the information needed to provide under *Mail* - *AppPassword* section.
 
-23. Create a shell script file.
+24. Create a shell script file.
     
 ```
 cd ..
@@ -167,7 +173,7 @@ python3 MailToTelegramForwarder.py -c application.conf &
 python3 TelegramToMailForwarder.py -c application.conf &
 ```
 
-24. Edit the crontab.
+25. Edit the crontab.
 
 ```
 crontab -e
